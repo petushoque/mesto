@@ -15,12 +15,18 @@
 
 @media screen and (max-width: 1279px) {
     .elements {
-        padding: 36px 19px 0 19px;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, 1fr);
         justify-items: center;
     }
 }
+
+@media screen and (max-width: 1023px) {
+    .elements {
+        padding: 36px 19px 0 19px;
+    }
+}
+
 
 @media screen and (max-width: 601px) {
     .elements {

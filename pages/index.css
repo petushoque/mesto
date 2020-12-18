@@ -25,3 +25,6 @@
 @import url(../blocks/elements/__info/elements__info.css);
 @import url(../blocks/elements/__signature/elements__signature.css);
 @import url(../blocks/elements/__like/elements__like.css);
+
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);
