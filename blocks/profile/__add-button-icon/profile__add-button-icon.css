@@ -1,0 +1,17 @@
+.profile__add-button-icon {
+    background-image: url(../../../images/add-button.png);
+    background-position: center;
+    background-size: cover;
+    width: 22px;
+    height: 22px;
+    margin: 0 auto;
+}
+
+/*стили для маленьких мониторов и мобильных устройств*/
+
+@media screen and (max-width: 1060px) {
+    .profile__add-button-icon {
+        width: 16px;
+        height: 16px;
+    }
+}

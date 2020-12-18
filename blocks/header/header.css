@@ -1,0 +1,19 @@
+.header {
+    width: 100%;
+    max-width: 1280px;
+    box-sizing: border-box;
+    padding: 45px 200px 0 200px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+/*стили для экранов до 768 пикселей*/
+
+@media screen and (max-width: 768px) {
+    .header {
+        padding: 28px 0 0;
+    }
+}
