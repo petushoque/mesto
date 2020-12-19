@@ -1,0 +1,23 @@
+.profile__status {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 0 0 0 30px; /*отодвигаем подпись от аватара на 30 пикселей*/
+    margin: 0;
+    white-space: nowrap;
+    justify-self: start;
+    align-self: flex-start;
+    grid-area: status;
+}
+
+/*стили для маленьких мониторов и мобильных устройств*/
+
+@media screen and (max-width: 1060px) {
+    .profile__status {
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+        padding: 14px 0 0;
+    }
+}

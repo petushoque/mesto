@@ -19,16 +19,12 @@
     
     <section class="profile">
       <div class="profile__avatar"></div>
-      <div class="profile__info">
-        <div class="profile__upper-line">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <div class="profile__edit-button"></div>
-        </div>
-        <p class="profile__lower-line">Исследователь океана</p>
-      </div>
-      <div class="profile__add-button">
-        <div class="profile__add-button-icon"></div>
-      </div>
+          <button class="profile__edit-button">
+          </button>
+        <p class="profile__status">Исследователь океана</p>
+      <button class="profile__add-button">
+      </button>
     </section>
 
     <section class="elements">      
@@ -36,42 +32,48 @@
         <img class="elements__picture" src="./images/img1-verh-anos.webp" alt="Поле у села Верх-Анос">
         <div class="elements__info">
           <p class="elements__signature">Верх-Анос</p>
-          <div class="elements__like"></div>
+          <button class="elements__like">
+          </button>
         </div>
       </div>
       <div class="elements__element">
         <img class="elements__picture" src="./images/img2-lednik.webp" alt="Ледник на границе с Монголией">
         <div class="elements__info">
           <p class="elements__signature">Ледник</p>
-          <div class="elements__like"></div>
+          <button class="elements__like">
+          </button>
         </div>
       </div>
       <div class="elements__element">
         <img class="elements__picture" src="./images/img3-maliy-yaloman.webp" alt="Малый Яломан">
         <div class="elements__info">
           <p class="elements__signature">Малый Яломан</p>
-          <div class="elements__like"></div>
+          <button class="elements__like">
+          </button>
         </div>
       </div>
       <div class="elements__element">
         <img class="elements__picture" src="./images/img4-krasnie-vorota.webp" alt="Красные ворота, дорога на Улаган">
         <div class="elements__info">
           <p class="elements__signature">Красные ворота</p>
-          <div class="elements__like"></div>
+          <button class="elements__like">
+          </button>
         </div>
       </div>
       <div class="elements__element">
         <img class="elements__picture" src="./images/img5-seminsky-pereval.jpg" alt="Семинский перевал, речушка возле трассы">
         <div class="elements__info">
           <p class="elements__signature">Семинский перевал</p>
-          <div class="elements__like"></div>
+          <button class="elements__like">
+          </button>
         </div>
       </div>
       <div class="elements__element">
         <img class="elements__picture" src="./images/img6-devushka-na-kone.jpg" alt="Девушка на лошади в лесу">
         <div class="elements__info">
           <p class="elements__signature">Девушка на лошади</p>
-          <div class="elements__like"></div>
+          <button class="elements__like">
+          </button>
         </div>
       </div>
     </section>
@@ -81,6 +83,16 @@
   <footer class="footer">
     <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
   </footer>
+
+  <section class="overlay">
+    <div class="popup">
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <input class="popup__forms popup__name-edit">
+      <input class="popup__forms popup__status-edit">
+      <button class="popup__save-button">Сохранить</button>
+    </div>
+
+  </section>
 
 </div>
 </body>
