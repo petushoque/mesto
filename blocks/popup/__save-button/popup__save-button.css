@@ -6,6 +6,10 @@
     color: #FFFFFF;
 }
 
+.popup__save-button:hover {
+    opacity: 0.8;
+}
+
 /*стили для маленьких мониторов и мобильных устройств*/
 
 @media screen and (max-width: 1060px) {

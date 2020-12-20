@@ -1,5 +1,10 @@
 .popup__forms {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
     border: none;
-    border-bottom: 1px solid red;
-    padding-bottom: 13px;
+    min-height: 27px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }

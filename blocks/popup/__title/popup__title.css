@@ -5,7 +5,7 @@
     line-height: 29px;
     color: #000000;
     margin: 0;
-    padding: 0;
+    padding: 0 0 54px 0;
 }
 
 /*стили для маленьких мониторов и мобильных устройств*/
@@ -14,5 +14,6 @@
     .popup__title {
         font-size: 18px;
         line-height: 22px;
+        padding: 0 0 75px 0;
     }
 }

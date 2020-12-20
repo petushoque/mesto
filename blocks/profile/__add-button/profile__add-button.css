@@ -15,6 +15,10 @@
     justify-self: center;
 }
 
+.profile__add-button:hover {
+    opacity: 0.6;
+}
+
 /*стили для маленьких мониторов и мобильных устройств*/
 
 @media screen and (max-width: 1060px) {

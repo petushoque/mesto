@@ -6,9 +6,7 @@
     line-height: 29px;
     padding: 0;
     margin: 0;
-
 /*переполнение блока с появляющимся многоточием в конце*/
-
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

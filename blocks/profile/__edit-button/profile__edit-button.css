@@ -9,10 +9,14 @@
     background-repeat: no-repeat;
     background-size: 10px 10px;
     background-color: #000000;
-    grid-area: edit-button;
-    justify-self: start;
-    align-self: center;
+    display: inline;
+    transform: translateX(30px);
 }
+
+.profile__edit-button:hover {
+    opacity: 0.6;
+}
+
 
 /*стили для маленьких мониторов и мобильных устройств*/
 
@@ -21,5 +25,6 @@
         width: 18px;
         height: 18px;
         background-size: 7.5px 7.5px;
+        transform: translateX(10px)
     }
 }

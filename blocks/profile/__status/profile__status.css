@@ -3,11 +3,11 @@
     font-weight: normal;
     font-size: 18px;
     line-height: 22px;
-    padding: 0 0 0 30px; /*отодвигаем подпись от аватара на 30 пикселей*/
+    padding: 16px 0 0 30px; /*отодвигаем подпись от аватара на 30 пикселей и от верхней строчки на 16*/
     margin: 0;
     white-space: nowrap;
     justify-self: start;
-    align-self: flex-start;
+    align-self: start;
     grid-area: status;
 }
 
@@ -17,7 +17,7 @@
     .profile__status {
         font-size: 14px;
         line-height: 17px;
-        text-align: center;
-        padding: 14px 0 0;
+        padding: 14px 0 36px 0; /*отодвигаемся от имени на 14 пикселей и двигаем кнопку на 36 пикселей*/
+        margin: 0 auto;
     }
 }
