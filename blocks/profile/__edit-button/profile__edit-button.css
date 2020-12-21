@@ -10,23 +10,25 @@
     background-size: 10px 10px;
     background-color: #000000;
 
-    position: absolute;
-    right: -42px; /*24 пикселя ширина самой кнопки и 18 пикселей собственно отступ*/
-    bottom: 8px;
+    margin-left: 18px; /*отодвигаем от имени на 18 пикселей*/
+    align-self: flex-end;
+    transform: translateY(-8px);
 }
 
 .profile__edit-button:hover {
     opacity: 0.6;
 }
 
-
 /*стили для маленьких мониторов и мобильных устройств*/
 
 @media screen and (max-width: 1060px) {
     .profile__edit-button {
+        margin-left: 0px; /*отменяем десктопные отступы*/
+        transform: translateY(0px);
         width: 18px;
         height: 18px;
         background-size: 7.5px 7.5px;
+        position: absolute;
         right: -28px; /*18 пикселя ширина самой кнопки и 10 пикселей собственно отступ*/
         bottom: 6px;
     }
