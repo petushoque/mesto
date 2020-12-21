@@ -9,8 +9,9 @@
     background-repeat: no-repeat;
     background-size: 10px 10px;
     background-color: #000000;
-    display: inline;
-    transform: translateX(30px);
+
+    position: absolute;
+    left: 120px;
 }
 
 .profile__edit-button:hover {
@@ -25,6 +26,5 @@
         width: 18px;
         height: 18px;
         background-size: 7.5px 7.5px;
-        transform: translateX(10px)
     }
 }
