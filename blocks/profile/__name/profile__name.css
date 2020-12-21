@@ -19,6 +19,6 @@
         font-size: 27px;
         line-height: 33px;
         padding: 26px 0 0 0; /*на 26 пикселей отодвигаемся от аватара*/
-        margin: 0 auto;
+        text-align: center;
     }
 }

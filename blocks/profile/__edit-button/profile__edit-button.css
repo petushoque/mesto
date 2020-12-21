@@ -11,7 +11,8 @@
     background-color: #000000;
 
     position: absolute;
-    left: 120px;
+    right: -42px; /*24 пикселя ширина самой кнопки и 18 пикселей собственно отступ*/
+    bottom: 8px;
 }
 
 .profile__edit-button:hover {
@@ -26,5 +27,7 @@
         width: 18px;
         height: 18px;
         background-size: 7.5px 7.5px;
+        right: -28px; /*18 пикселя ширина самой кнопки и 10 пикселей собственно отступ*/
+        bottom: 6px;
     }
 }

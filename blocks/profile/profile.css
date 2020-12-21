@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: 120px auto 150px;
     grid-template-rows: 1fr 1fr;
-    grid-template-areas: "avatar name add-button"
+    grid-template-areas: "avatar user add-button"
     "avatar status add-button";
 }
 
@@ -19,7 +19,7 @@
         grid-template-columns: 1fr;
         grid-template-rows: repeat(4, auto);
         grid-template-areas: "avatar"  
-        "name"
+        "user"
         "status"
         "add-button";
     }
