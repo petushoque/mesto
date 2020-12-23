@@ -9,10 +9,9 @@
     background-repeat: no-repeat;
     background-size: 10px 10px;
     background-color: #000000;
-
     margin-left: 18px; /*отодвигаем от имени на 18 пикселей*/
     align-self: flex-end;
-    transform: translateY(-8px);
+    margin-bottom: 8px;
 }
 
 .profile__edit-button:hover {
@@ -23,13 +22,13 @@
 
 @media screen and (max-width: 1060px) {
     .profile__edit-button {
-        margin-left: 0px; /*отменяем десктопные отступы*/
+        margin: 0 0 0 0; /*отменяем десктопные отступы*/
         transform: translateY(0px);
         width: 18px;
         height: 18px;
         background-size: 7.5px 7.5px;
         position: absolute;
-        right: -28px; /*18 пикселя ширина самой кнопки и 10 пикселей собственно отступ*/
+        right: -28px; /*18 пикселей ширина самой кнопки и 10 пикселей собственно отступ*/
         bottom: 6px;
     }
 }

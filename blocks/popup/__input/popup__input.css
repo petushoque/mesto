@@ -1,4 +1,4 @@
-.popup__forms {
+.popup__input {
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -7,4 +7,7 @@
     border: none;
     min-height: 27px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 0 0 30px 0;
+    box-sizing: border-box;
+    width: 100%;
 }

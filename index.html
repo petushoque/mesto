@@ -12,7 +12,6 @@
     
   <header class="header">
     <img class="header__logo" src="images/logo-mesto.svg" alt="Логотип сайта">
-    <div class="header__line"></div>
   </header>
 
   <main class="main">
@@ -20,62 +19,62 @@
     <section class="profile">
       <div class="profile__avatar"></div>  
       <div class="profile__user">      
-      <h1 class="profile__name">Жак-Ив Кусто</h1>
-      <button class="profile__edit-button"></button>
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <button class="profile__edit-button" type="button"></button>
       </div>
       <p class="profile__status">Исследователь океана</p>
-      <button class="profile__add-button"></button>
+      <button class="profile__add-button" type="button"></button>
     </section>
 
     <section class="elements">      
-      <div class="elements__element">
-        <img class="elements__picture" src="./images/img1-verh-anos.webp" alt="Поле у села Верх-Анос">
-        <div class="elements__info">
-          <p class="elements__signature">Верх-Анос</p>
-          <button class="elements__like">
+      <article class="card">
+        <img class="card__picture" src="./images/img1-verh-anos.webp" alt="Поле у села Верх-Анос">
+        <div class="card__info">
+          <h2 class="card__signature">Верх-Анос</h2>
+          <button class="card__like" type="button">
           </button>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__picture" src="./images/img2-lednik.webp" alt="Ледник на границе с Монголией">
-        <div class="elements__info">
-          <p class="elements__signature">Ледник</p>
-          <button class="elements__like">
+      </article>
+      <article class="card">
+        <img class="card__picture" src="./images/img2-lednik.webp" alt="Ледник на границе с Монголией">
+        <div class="card__info">
+          <h2 class="card__signature">Ледник</h2>
+          <button class="card__like" type="button">
           </button>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__picture" src="./images/img3-maliy-yaloman.webp" alt="Малый Яломан">
-        <div class="elements__info">
-          <p class="elements__signature">Малый Яломан</p>
-          <button class="elements__like">
+      </article>
+      <article class="card">
+        <img class="card__picture" src="./images/img3-maliy-yaloman.webp" alt="Малый Яломан">
+        <div class="card__info">
+          <h2 class="card__signature">Малый Яломан</h2>
+          <button class="card__like" type="button">
           </button>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__picture" src="./images/img4-krasnie-vorota.webp" alt="Красные ворота, дорога на Улаган">
-        <div class="elements__info">
-          <p class="elements__signature">Красные ворота</p>
-          <button class="elements__like">
+      </article>
+      <article class="card">
+        <img class="card__picture" src="./images/img4-krasnie-vorota.webp" alt="Красные ворота, дорога на Улаган">
+        <div class="card__info">
+          <h2 class="card__signature">Красные ворота</h2>
+          <button class="card__like" type="button">
           </button>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__picture" src="./images/img5-seminsky-pereval.jpg" alt="Семинский перевал, речушка возле трассы">
-        <div class="elements__info">
-          <p class="elements__signature">Семинский перевал</p>
-          <button class="elements__like">
+      </article>
+      <article class="card">
+        <img class="card__picture" src="./images/img5-seminsky-pereval.jpg" alt="Семинский перевал, речушка возле трассы">
+        <div class="card__info">
+          <h2 class="card__signature">Семинский перевал</h2>
+          <button class="card__like" type="button">
           </button>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__picture" src="./images/img6-devushka-na-kone.jpg" alt="Девушка на лошади в лесу">
-        <div class="elements__info">
-          <p class="elements__signature">Девушка на лошади</p>
-          <button class="elements__like">
+      </article>
+      <article class="card">
+        <img class="card__picture" src="./images/img6-devushka-na-kone.jpg" alt="Девушка на лошади в лесу">
+        <div class="card__info">
+          <h2 class="card__signature">Девушка на лошади</h2>
+          <button class="card__like" type="button">
           </button>
         </div>
-      </div>
+      </article>
     </section>
 
   </main>
@@ -84,13 +83,15 @@
     <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
   </footer>
 
-  <section class="overlay">
-    <div class="popup">
+  <section class="popup">
+    <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <input class="popup__forms popup__name-edit">
-      <input class="popup__forms popup__status-edit">
-      <button class="popup__save-button">Сохранить</button>
-      <button class="popup__close-button"></button>
+      <form name="profile-edit">
+      <input class="popup__input popup__input_name" name="username" placeholder="Введите имя" required>
+      <input class="popup__input popup__input_status" name="status" placeholder="Введите статус" required>
+      <button class="popup__save-button" type="submit">Сохранить</button>
+      </form>
+      <button class="popup__close-button" type="button"></button>
     </div>
   </section>
 
