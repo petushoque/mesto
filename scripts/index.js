@@ -1,57 +1,36 @@
-let openPopupButton = document.querySelector('.profile__edit-button')
-let overlay = document.querySelector('.overlay')
-let closePopupButton = document.querySelector('.popup__close-button')
+let openPopupButton = document.querySelector('.profile__edit-button') //переменная для кнопки редактирования
+let closePopupButton = document.querySelector('.popup__close-button') //переменная для крестика закрытия попапа
+let popup = document.querySelector('.popup') //переменная для попапа
+let profileName = document.querySelector('.profile__name') //переменная для имени профиля
+let profileStatus = document.querySelector('.profile__status') //переменная для статуса профиля
+let nameEditArea = document.querySelector('.popup__input_name') //переменная для строки ввода нового имени
+let statusEditArea = document.querySelector('.popup__input_status') //переменная для строки воода нового статуса
 
-let nameEdit = document.querySelector('.popup__name-edit')
-let statusEdit = document.querySelector('.popup__status-edit')
-let profileName = document.querySelector('.profile__name')
-let profileStatus = document.querySelector('.profile__status')
+let profileEditForm = document.forms.profileedit //переменная для объекта-формы
 
 // === Функция открывающая попап ===
 
-openPopupButton.addEventListener('click', () => {
-    overlay.classList.add('overlay_active')
-    nameEdit.value = `${profileName.textContent}` //значения в формах по умолчанию берем из HTML
-    statusEdit.value = `${profileStatus.textContent}` //значения в формах по умолчанию берем из HTML
-})
+function popupOpen () {
+    popup.classList.add('popup_active') //делаем попап видимым
+    nameEditArea.value = profileName.textContent //значения в формах по умолчанию берем из профиля
+    statusEditArea.value = profileStatus.textContent //значения в формах по умолчанию берем из профиля
+}
 
-// ===Функция закрывающая попап
+// === Функция закрывающая попап ===
 
-closePopupButton.addEventListener('click', () => {
-    overlay.classList.remove('overlay_active')
-})
+function popupClose () {
+    popup.classList.remove('popup_active') //делаем попап невидимым
+}
 
-let saveButton = document.querySelector('.popup__save-button')
+// === Функция обработчик данных для формы ====
 
 function handleFormSubmit (evt) {
     evt.preventDefault(); 
-    let nameEditValue = document.querySelector('.popup__name-edit').value //берем текст в поле имя
-    let statusEditValue = document.querySelector('.popup__status-edit').value //берем текст в поле статус
-    profileName.innerHTML = `${nameEditValue}` //вставляем новые значения в HTML
-    profileStatus.innerHTML = `${statusEditValue}` //вставляем новые значения в HTML
-    overlay.classList.remove('overlay_active') //зыкраываем попап
+    profileName.textContent = nameEditArea.value //в имя профиля записываем новые данные
+    profileStatus.textContent = statusEditArea.value //в статус профиля записываем новые данные
+    popupClose()
 }
 
-saveButton.addEventListener('click', handleFormSubmit); 
-
-
-
-/* ================ Запасная рабочая кнопка сохранить ===================
-
-let saveButton = document.querySelector('.popup__save-button')
-
-function handleFormSubmit (evt) {
-    evt.preventDefault(); 
-
-    let nameEdit = document.querySelector('.popup__name-edit').value
-    let statusEdit = document.querySelector('.popup__status-edit').value
-
-    let profileName = document.querySelector('.profile__name')
-    let profileStatus = document.querySelector('.profile__status')
-
-    profileName.innerHTML = `${nameEdit}`
-    profileStatus.innerHTML = `${statusEdit}`
-}
-
-saveButton.addEventListener('click', handleFormSubmit); 
-*/
+openPopupButton.addEventListener('click', popupOpen) //клик по кнопке редактирования вызывает функцию открытия попапа
+closePopupButton.addEventListener('click', popupClose) //клик по кнопке крестик вызывает функцию закрытия попапа
+profileEditForm.addEventListener('submit', handleFormSubmit)
