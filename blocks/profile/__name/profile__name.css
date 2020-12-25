@@ -10,9 +10,9 @@
     align-self: end;
     justify-self: start;
     text-overflow: ellipsis;
-    max-width: 316px;
     overflow: hidden;
     white-space: nowrap;
+    max-width: 316px;
 }
 
 /*стили для маленьких мониторов и мобильных устройств*/
@@ -22,6 +22,12 @@
         font-size: 27px;
         line-height: 33px;
         padding: 26px 0 0 0; /*на 26 пикселей отодвигаемся от аватара*/
-        max-width: 250px;
+        max-width: 260px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profile__name {
+        max-width: 215px;
     }
 }
