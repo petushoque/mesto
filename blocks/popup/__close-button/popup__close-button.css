@@ -3,6 +3,7 @@
     position: absolute;
     right: -40px;
     top: -40px;
+    transform: rotate(-45deg);
     background-image: url(../../../images/close-popup-button.svg);
     background-position: center;
     background-repeat: no-repeat;

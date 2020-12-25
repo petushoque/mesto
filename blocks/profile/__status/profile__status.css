@@ -9,6 +9,10 @@
     justify-self: start;
     align-self: start;
     grid-area: status;
+    text-overflow: ellipsis; 
+    max-width: 350px; 
+    overflow: hidden; 
+    white-space: nowrap;
 }
 
 /*стили для маленьких мониторов и мобильных устройств*/
@@ -19,5 +23,6 @@
         line-height: 17px;
         padding: 14px 0 36px 0; /*отодвигаемся от имени на 14 пикселей и двигаем кнопку на 36 пикселей*/
         margin: 0 auto;
+        max-width: 280px;
     }
 }

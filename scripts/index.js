@@ -3,8 +3,8 @@ let closePopupButton = document.querySelector('.popup__close-button') //пере
 let popup = document.querySelector('.popup') //переменная для попапа
 let profileName = document.querySelector('.profile__name') //переменная для имени профиля
 let profileStatus = document.querySelector('.profile__status') //переменная для статуса профиля
-let nameEditArea = document.querySelector('.popup__input_name') //переменная для строки ввода нового имени
-let statusEditArea = document.querySelector('.popup__input_status') //переменная для строки воода нового статуса
+let nameEditArea = document.querySelector('.popup__input_textarea_name') //переменная для строки ввода нового имени
+let statusEditArea = document.querySelector('.popup__input_textarea_status') //переменная для строки воода нового статуса
 
 let profileEditForm = document.forms.profileedit //переменная для объекта-формы
 

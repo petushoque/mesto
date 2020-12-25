@@ -10,4 +10,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+/*подпись к фото по ширине должна занимать весь блок, оставляя место только для кнпоки "like"*/
+    max-width: calc(100% - 21px);
 }

@@ -2,11 +2,14 @@
     cursor: pointer;
     background-image: url(../../../images/like-button.svg);
     background-position: center;
-    background-size: cover;
+    background-size: 20px 19px;
     background-repeat: no-repeat;
     background-color: #FFFFFF;
-    width: 20.76px;
+    /*width: 20.76px;
     height: 18.13px;
+    значения пришлось округлить, дробные пиксели по разному отображаются в разных браузерах*/
+    width: 21px;
+    height: 19px;
     border: none;
 }
 
