@@ -113,7 +113,7 @@ function handleFormSubmitAddPost (evt) {
 
     cardInfo.append(cardSignature, cardLikeButton)
     card.append(cardPicture, cardInfo);
-    elements.append(card);
+    elements.prepend(card);
     popupCloseAddPost()
 }
 
