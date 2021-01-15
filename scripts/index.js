@@ -16,10 +16,10 @@ let statusEditArea = document.querySelector('.popup__input_textarea_status') //�
 let profileEditForm = document.forms.profileedit //переменная для объекта-формы редактирования профиля
 let addPostForm = document.forms.addpost //переменная для объекта-формы добавления нового поста
 
+const elements = document.querySelector('.elements');
+
 let signatureArea = document.querySelector('.popup__input_textarea_signature');
 let pictureArea = document.querySelector('.popup__input_textarea_picture');
-
-
 
 const initialCards = [
     {
@@ -48,6 +48,25 @@ const initialCards = [
     }
   ];
 
+  const cardTemplate = document.querySelector('.card-template')
+
+  function renderPost (data) {    
+    const clone = cardTemplate.content.cloneNode(true);
+    clone.querySelector('.card__picture').src = data.link;
+    clone.querySelector('.card__signature').textContent = data.name;
+    elements.appendChild(clone);
+    console.log(cardTemplate.content); 
+ }
+ 
+ function renderPosts () {
+   initialCards.forEach(renderPost)
+ }
+ 
+ renderPosts ()
+
+
+
+
 // === Функция открывающая попап редактирующий профиль ===
 
 function popupOpenEditProfile () {
@@ -74,15 +93,84 @@ function popupCloseAddPost() {
     popupAddPost.classList.remove('popup_active'); //делаем попап невидимым
 }
 
-// === Функция обработчик данных для формы ====
+// === Функция обработчик данных для формы редактирования профиля ====
 
 function handleFormSubmitEditProfile (evt) {
     evt.preventDefault(); 
     profileName.textContent = nameEditArea.value //в имя профиля записываем новые данные
     profileStatus.textContent = statusEditArea.value //в статус профиля записываем новые данные
-    popupCloseEditProfile()
+    popupCloseEditProfile() //закрываем попап
 }
 
+
+
+editProfileButton.addEventListener('click', popupOpenEditProfile); //клик по кнопке редактирования вызывает функцию открытия попапа
+addPostButton.addEventListener('click', popupOpenAddPost); //клик по кнопке добавить пост вызывает функцию открытия попапа
+closeEditProfileButton.addEventListener('click', popupCloseEditProfile); //клик по кнопке крестик вызывает функцию закрытия попапа
+closeAddPostButton.addEventListener('click', popupCloseAddPost); //клик по кнопке крестик вызывает функцию закрытия попапа
+
+profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
+addPostForm.addEventListener('submit', handleFormSubmitAddPost);
+
+
+function handleFormSubmitAddPost (evt) {
+  evt.preventDefault(); 
+  let signature = signatureArea.value;
+  let picture = pictureArea.value;
+  console.log(picture);
+
+  const elements = document.querySelector('.elements');
+
+  const card = document.createElement('article');
+  card.classList.add('card');
+
+  const cardPicture = document.createElement('img');
+  cardPicture.classList.add('card__picture');
+  cardPicture.src = picture;
+
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card__info');
+
+  const cardSignature = document.createElement('h2');
+  cardSignature.classList.add('card__signature');
+  cardSignature.textContent = signature;
+
+  const cardLikeButton = document.createElement('button');
+  cardLikeButton.classList.add('card__like');
+  cardLikeButton.type = 'button';
+
+  cardInfo.append(cardSignature, cardLikeButton)
+  card.append(cardPicture, cardInfo);
+  elements.prepend(card);
+  popupCloseAddPost()
+}
+
+
+
+
+
+
+/* =================================
+
+  let addPostPopupButton = document.querySelector('.profile__add-button');
+addPostPopupButton.addEventListener('click', openAddPostPopup);
+
+РАБОЧИЙ МОМЕНТ СОЗДАНИЯ НОВОГО ПОПАПА ПОПАПА
+
+function openAddPostPopup () {
+    console.log("Hello");
+    const addPostSection = document.createElement('section');
+    addPostSection.classList.add('popup')
+    addPostSection.classList.add('popup_active')
+    popup.after(addPostSection);
+    const addPostDivContainer = document.createElement('div');
+    addPostDivContainer.classList.add('popup__container')
+    addPostSection.append(addPostDivContainer);
+    const messageHello = document.createElement('h1');
+    messageHello.textContent = 'Hello';
+    addPostDivContainer.append(messageHello);
+    
+}
 
 
 function handleFormSubmitAddPost (evt) {
@@ -115,43 +203,7 @@ function handleFormSubmitAddPost (evt) {
     card.append(cardPicture, cardInfo);
     elements.prepend(card);
     popupCloseAddPost()
-}
 
-editProfileButton.addEventListener('click', popupOpenEditProfile); //клик по кнопке редактирования вызывает функцию открытия попапа
-addPostButton.addEventListener('click', popupOpenAddPost); //клик по кнопке добавить пост вызывает функцию открытия попапа
-closeEditProfileButton.addEventListener('click', popupCloseEditProfile); //клик по кнопке крестик вызывает функцию закрытия попапа
-closeAddPostButton.addEventListener('click', popupCloseAddPost); //клик по кнопке крестик вызывает функцию закрытия попапа
-
-profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
-addPostForm.addEventListener('submit', handleFormSubmitAddPost);
-
-
-console.log(initialCards);
-
-
-
-
-/* =================================
-
-  let addPostPopupButton = document.querySelector('.profile__add-button');
-addPostPopupButton.addEventListener('click', openAddPostPopup);
-
-РАБОЧИЙ МОМЕНТ СОЗДАНИЯ НОВОГО ПОПАПА ПОПАПА
-
-function openAddPostPopup () {
-    console.log("Hello");
-    const addPostSection = document.createElement('section');
-    addPostSection.classList.add('popup')
-    addPostSection.classList.add('popup_active')
-    popup.after(addPostSection);
-    const addPostDivContainer = document.createElement('div');
-    addPostDivContainer.classList.add('popup__container')
-    addPostSection.append(addPostDivContainer);
-    const messageHello = document.createElement('h1');
-    messageHello.textContent = 'Hello';
-    addPostDivContainer.append(messageHello);
-    
-}
 
 //const elementsSection = document.querySelector('.elements');
 //const cardTemplate = document.querySelector('.card').content;
