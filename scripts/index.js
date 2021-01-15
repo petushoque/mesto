@@ -5,7 +5,7 @@ let closeEditProfileButton = document.querySelector('.popup__close-button_type_e
 let addPostButton = document.querySelector('.profile__add-button'); //переменная для кнопки добавления нового поста
 let closeAddPostButton = document.querySelector('.popup__close-button_type_add-post'); //переменная для крестика закрытия попапа с добавлением нового поста
 
-// ===
+// =========
 
 let popupEditProfile = document.querySelector('.popup_type_edit-profile') //переменная для попапа с редактированием профиля
 let popupAddPost = document.querySelector('.popup_type_add-post') //переменная для попапа с добавлением нового поста
@@ -13,10 +13,12 @@ let profileName = document.querySelector('.profile__name') //переменна�
 let profileStatus = document.querySelector('.profile__status') //переменная для статуса профиля
 let nameEditArea = document.querySelector('.popup__input_textarea_name') //переменная для строки ввода нового имени
 let statusEditArea = document.querySelector('.popup__input_textarea_status') //переменная для строки воода нового статуса
+
 let profileEditForm = document.forms.profileedit //переменная для объекта-формы редактирования профиля
 let addPostForm = document.forms.addpost //переменная для объекта-формы добавления нового поста
 
 const elements = document.querySelector('.elements');
+const cardTemplate = document.querySelector('.card-template')
 
 let signatureArea = document.querySelector('.popup__input_textarea_signature');
 let pictureArea = document.querySelector('.popup__input_textarea_picture');
@@ -48,24 +50,24 @@ const initialCards = [
     }
   ];
 
-  const cardTemplate = document.querySelector('.card-template')
+//=== Функция создания карточки ===
 
-  function renderPost (data) {    
+function renderPost (data) {    
     const clone = cardTemplate.content.cloneNode(true);
     clone.querySelector('.card__picture').src = data.link;
     clone.querySelector('.card__signature').textContent = data.name;
-    elements.appendChild(clone);
-    console.log(cardTemplate.content); 
- }
+    clone.querySelector('.card__delete').addEventListener('click', handleDeletePost)
+    elements.prepend(clone);
+}
+
+//=== Функция заполнения страницы карточками из стартового массива ===
+
+function renderPosts () {
+   const revInitialCards = initialCards.reverse(); //переворачиваем массив, чтобы карточки отображались в нужном порядке
+   revInitialCards.forEach(renderPost);
+}
  
- function renderPosts () {
-   initialCards.forEach(renderPost)
- }
- 
- renderPosts ()
-
-
-
+renderPosts ()
 
 // === Функция открывающая попап редактирующий профиль ===
 
@@ -78,7 +80,9 @@ function popupOpenEditProfile () {
 // === Функция открывающая попап добавляющий пост ===
 
 function popupOpenAddPost () {
-    popupAddPost.classList.add('popup_active') //делаем попап видимым
+    popupAddPost.classList.add('popup_active'); //делаем попап видимым
+    signatureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
+    pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
 }
 
 // === Функция закрывающая попап редактирующий профиль ===
@@ -93,7 +97,7 @@ function popupCloseAddPost() {
     popupAddPost.classList.remove('popup_active'); //делаем попап невидимым
 }
 
-// === Функция обработчик данных для формы редактирования профиля ====
+// === Функция обработчик данных для формы редактирования профиля ===
 
 function handleFormSubmitEditProfile (evt) {
     evt.preventDefault(); 
@@ -102,7 +106,25 @@ function handleFormSubmitEditProfile (evt) {
     popupCloseEditProfile() //закрываем попап
 }
 
+// === Функция обработчик данных для формы добавления новой карточки ===
 
+function handleFormSubmitAddPost (evt) {
+  evt.preventDefault();
+  let newPost = [
+    {
+      name: signatureArea.value,
+      link: pictureArea.value
+    },
+  ]
+  newPost.forEach(renderPost)
+  popupCloseAddPost()
+}
+
+//=== Функция обработчик события, при клике по кнопке корзины карточка удаляется ===
+
+function handleDeletePost (evt) {
+    evt.target.closest('.card').remove();
+}
 
 editProfileButton.addEventListener('click', popupOpenEditProfile); //клик по кнопке редактирования вызывает функцию открытия попапа
 addPostButton.addEventListener('click', popupOpenAddPost); //клик по кнопке добавить пост вызывает функцию открытия попапа
@@ -111,110 +133,3 @@ closeAddPostButton.addEventListener('click', popupCloseAddPost); //клик по
 
 profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
 addPostForm.addEventListener('submit', handleFormSubmitAddPost);
-
-
-function handleFormSubmitAddPost (evt) {
-  evt.preventDefault(); 
-  let signature = signatureArea.value;
-  let picture = pictureArea.value;
-  console.log(picture);
-
-  const elements = document.querySelector('.elements');
-
-  const card = document.createElement('article');
-  card.classList.add('card');
-
-  const cardPicture = document.createElement('img');
-  cardPicture.classList.add('card__picture');
-  cardPicture.src = picture;
-
-  const cardInfo = document.createElement('div');
-  cardInfo.classList.add('card__info');
-
-  const cardSignature = document.createElement('h2');
-  cardSignature.classList.add('card__signature');
-  cardSignature.textContent = signature;
-
-  const cardLikeButton = document.createElement('button');
-  cardLikeButton.classList.add('card__like');
-  cardLikeButton.type = 'button';
-
-  cardInfo.append(cardSignature, cardLikeButton)
-  card.append(cardPicture, cardInfo);
-  elements.prepend(card);
-  popupCloseAddPost()
-}
-
-
-
-
-
-
-/* =================================
-
-  let addPostPopupButton = document.querySelector('.profile__add-button');
-addPostPopupButton.addEventListener('click', openAddPostPopup);
-
-РАБОЧИЙ МОМЕНТ СОЗДАНИЯ НОВОГО ПОПАПА ПОПАПА
-
-function openAddPostPopup () {
-    console.log("Hello");
-    const addPostSection = document.createElement('section');
-    addPostSection.classList.add('popup')
-    addPostSection.classList.add('popup_active')
-    popup.after(addPostSection);
-    const addPostDivContainer = document.createElement('div');
-    addPostDivContainer.classList.add('popup__container')
-    addPostSection.append(addPostDivContainer);
-    const messageHello = document.createElement('h1');
-    messageHello.textContent = 'Hello';
-    addPostDivContainer.append(messageHello);
-    
-}
-
-
-function handleFormSubmitAddPost (evt) {
-    evt.preventDefault(); 
-    let signature = signatureArea.value;
-    let picture = pictureArea.value;
-    console.log(picture);
-
-    const elements = document.querySelector('.elements');
-
-    const card = document.createElement('article');
-    card.classList.add('card');
-
-    const cardPicture = document.createElement('img');
-    cardPicture.classList.add('card__picture');
-    cardPicture.src = picture;
-
-    const cardInfo = document.createElement('div');
-    cardInfo.classList.add('card__info');
-
-    const cardSignature = document.createElement('h2');
-    cardSignature.classList.add('card__signature');
-    cardSignature.textContent = signature;
-
-    const cardLikeButton = document.createElement('button');
-    cardLikeButton.classList.add('card__like');
-    cardLikeButton.type = 'button';
-
-    cardInfo.append(cardSignature, cardLikeButton)
-    card.append(cardPicture, cardInfo);
-    elements.prepend(card);
-    popupCloseAddPost()
-
-
-//const elementsSection = document.querySelector('.elements');
-//const cardTemplate = document.querySelector('.card').content;
-//console.log(cardTemplate);
-// клонируем содержимое тега template
-//const cardElement = cardTemplate.cloneNode(true);
-// наполняем содержимым
-//console.log(cardElement);
-//cardElement.querySelector('.card__picture').src = 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg';
-//cardElement.querySelector('.card__signature').textContent = 'Архыз';
-// отображаем на странице
-//elementsSection.append(cardElement); 
-*/
-
