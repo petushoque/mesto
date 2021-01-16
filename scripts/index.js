@@ -56,7 +56,8 @@ function renderPost (data) {
     const clone = cardTemplate.content.cloneNode(true);
     clone.querySelector('.card__picture').src = data.link;
     clone.querySelector('.card__signature').textContent = data.name;
-    clone.querySelector('.card__delete').addEventListener('click', handleDeletePost)
+    clone.querySelector('.card__delete').addEventListener('click', handleDeletePost);
+    clone.querySelector('.card__like').addEventListener('click', handleLikePost);
     elements.prepend(clone);
 }
 
@@ -124,6 +125,12 @@ function handleFormSubmitAddPost (evt) {
 
 function handleDeletePost (evt) {
     evt.target.closest('.card').remove();
+}
+
+//=== Функция обработчик события, при клике по кнопке лайка, вид кнопки меняется ===
+
+function handleLikePost (evt) {
+    evt.target.classList.toggle('card__like_active')
 }
 
 editProfileButton.addEventListener('click', popupOpenEditProfile); //клик по кнопке редактирования вызывает функцию открытия попапа
