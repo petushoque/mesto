@@ -7,8 +7,9 @@ let closeAddPostButton = document.querySelector('.popup__close-button_type_add-p
 
 // =========
 
-let popupEditProfile = document.querySelector('.popup_type_edit-profile') //переменная для попапа с редактированием профиля
-let popupAddPost = document.querySelector('.popup_type_add-post') //переменная для попапа с добавлением нового поста
+const popupEditProfile = document.querySelector('.popup_type_edit-profile') //переменная для попапа с редактированием профиля
+const popupAddPost = document.querySelector('.popup_type_add-post') //переменная для попапа с добавлением нового поста
+const popupImage = document.querySelector('.popup_type_image'); //переменная дл попапа с просмотром картинки в большом разрешении
 let profileName = document.querySelector('.profile__name') //переменная для имени профиля
 let profileStatus = document.querySelector('.profile__status') //переменная для статуса профиля
 let nameEditArea = document.querySelector('.popup__input_textarea_name') //переменная для строки ввода нового имени
@@ -58,6 +59,7 @@ function renderPost (data) {
     clone.querySelector('.card__signature').textContent = data.name;
     clone.querySelector('.card__delete').addEventListener('click', handleDeletePost);
     clone.querySelector('.card__like').addEventListener('click', handleLikePost);
+    clone.querySelector('.card__picture').addEventListener('click', popupOpenImage);
     elements.prepend(clone);
 }
 
@@ -84,6 +86,14 @@ function popupOpenAddPost () {
     popupAddPost.classList.add('popup_active'); //делаем попап видимым
     signatureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
     pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
+}
+
+// === Функция открывающая попап с крупной картинкой ===
+
+function popupOpenImage (evt) {
+  popupImage.classList.add('popup_active'); //делаем попап с крупной картинкой видимым
+  const bigImage = document.querySelector('.popup__big-image');
+  bigImage.src = evt.target.closest('.card__picture').src;
 }
 
 // === Функция закрывающая попап редактирующий профиль ===
