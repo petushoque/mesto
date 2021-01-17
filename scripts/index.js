@@ -1,9 +1,10 @@
 // === Кнопки ===
 
-let editProfileButton = document.querySelector('.profile__edit-button'); //переменная для кнопки редактирования профиля
-let closeEditProfileButton = document.querySelector('.popup__close-button_type_edit-profile'); //переменная для крестика закрытия попапа с редактированием профиля
-let addPostButton = document.querySelector('.profile__add-button'); //переменная для кнопки добавления нового поста
-let closeAddPostButton = document.querySelector('.popup__close-button_type_add-post'); //переменная для крестика закрытия попапа с добавлением нового поста
+const editProfileButton = document.querySelector('.profile__edit-button'); //переменная для кнопки редактирования профиля
+const closeEditProfileButton = document.querySelector('.popup__close-button_type_edit-profile'); //переменная для крестика закрытия попапа с редактированием профиля
+const addPostButton = document.querySelector('.profile__add-button'); //переменная для кнопки добавления нового поста
+const closeAddPostButton = document.querySelector('.popup__close-button_type_add-post'); //переменная для крестика закрытия попапа с добавлением нового поста
+const closeImageButton = document.querySelector('.popup__close-button_type_image')
 
 // =========
 
@@ -96,16 +97,10 @@ function popupOpenImage (evt) {
   bigImage.src = evt.target.closest('.card__picture').src;
 }
 
-// === Функция закрывающая попап редактирующий профиль ===
+// === Общая функция закрытия попапов ===
 
-function popupCloseEditProfile() {
-    popupEditProfile.classList.remove('popup_active'); //делаем попап невидимым
-}
-
-// === Функция закрывающая попап добавляющий новый пост ===
-
-function popupCloseAddPost() {
-    popupAddPost.classList.remove('popup_active'); //делаем попап невидимым
+function popupClose(location) {
+  location.classList.remove('popup_active')
 }
 
 // === Функция обработчик данных для формы редактирования профиля ===
@@ -114,7 +109,7 @@ function handleFormSubmitEditProfile (evt) {
     evt.preventDefault(); 
     profileName.textContent = nameEditArea.value //в имя профиля записываем новые данные
     profileStatus.textContent = statusEditArea.value //в статус профиля записываем новые данные
-    popupCloseEditProfile() //закрываем попап
+    popupClose(popupEditProfile) //закрываем попап
 }
 
 // === Функция обработчик данных для формы добавления новой карточки ===
@@ -128,7 +123,7 @@ function handleFormSubmitAddPost (evt) {
     },
   ]
   newPost.forEach(renderPost)
-  popupCloseAddPost()
+  popupClose(popupAddPost)
 }
 
 //=== Функция обработчик события, при клике по кнопке корзины карточка удаляется ===
@@ -145,8 +140,10 @@ function handleLikePost (evt) {
 
 editProfileButton.addEventListener('click', popupOpenEditProfile); //клик по кнопке редактирования вызывает функцию открытия попапа
 addPostButton.addEventListener('click', popupOpenAddPost); //клик по кнопке добавить пост вызывает функцию открытия попапа
-closeEditProfileButton.addEventListener('click', popupCloseEditProfile); //клик по кнопке крестик вызывает функцию закрытия попапа
-closeAddPostButton.addEventListener('click', popupCloseAddPost); //клик по кнопке крестик вызывает функцию закрытия попапа
+closeEditProfileButton.addEventListener('click', function(){popupClose(popupEditProfile)}); //клик по кнопке крестик вызывает функцию закрытия попапа
+closeAddPostButton.addEventListener('click', function(){popupClose(popupAddPost)}); //клик по кнопке крестик вызывает функцию закрытия попапа
+closeImageButton.addEventListener('click', function(){popupClose(popupImage)})
+
 
 profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
 addPostForm.addEventListener('submit', handleFormSubmitAddPost);
