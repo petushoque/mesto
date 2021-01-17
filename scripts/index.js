@@ -4,7 +4,7 @@ const editProfileButton = document.querySelector('.profile__edit-button'); //п�
 const closeEditProfileButton = document.querySelector('.popup__close-button_type_edit-profile'); //переменная для крестика закрытия попапа с редактированием профиля
 const addPostButton = document.querySelector('.profile__add-button'); //переменная для кнопки добавления нового поста
 const closeAddPostButton = document.querySelector('.popup__close-button_type_add-post'); //переменная для крестика закрытия попапа с добавлением нового поста
-const closeImageButton = document.querySelector('.popup__close-button_type_image')
+const closeImageButton = document.querySelector('.popup__close-button_type_image'); //переменная для крестика закрытия попапа с крупным изображением
 
 // =========
 
@@ -16,8 +16,8 @@ let profileStatus = document.querySelector('.profile__status') //перемен�
 let nameEditArea = document.querySelector('.popup__input_textarea_name') //переменная для строки ввода нового имени
 let statusEditArea = document.querySelector('.popup__input_textarea_status') //переменная для строки воода нового статуса
 
-let profileEditForm = document.forms.profileedit //переменная для объекта-формы редактирования профиля
-let addPostForm = document.forms.addpost //переменная для объекта-формы добавления нового поста
+const profileEditForm = document.forms.profileedit //переменная для объекта-формы редактирования профиля
+const addPostForm = document.forms.addpost //переменная для объекта-формы добавления нового поста
 
 const elements = document.querySelector('.elements');
 const cardTemplate = document.querySelector('.card-template')
@@ -57,6 +57,7 @@ const initialCards = [
 function renderPost (data) {    
     const clone = cardTemplate.content.cloneNode(true);
     clone.querySelector('.card__picture').src = data.link;
+    clone.querySelector('.card__picture').alt = data.name;
     clone.querySelector('.card__signature').textContent = data.name;
     clone.querySelector('.card__delete').addEventListener('click', handleDeletePost);
     clone.querySelector('.card__like').addEventListener('click', handleLikePost);
@@ -89,12 +90,15 @@ function popupOpenAddPost () {
     pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
 }
 
-// === Функция открывающая попап с крупной картинкой ===
+// === Функция открывающая попап с крупной картинкой и подписью места ===
 
 function popupOpenImage (evt) {
   popupImage.classList.add('popup_active'); //делаем попап с крупной картинкой видимым
   const bigImage = document.querySelector('.popup__big-image');
+  const bigImageSignature = document.querySelector('.popup__big-image-signature');
   bigImage.src = evt.target.closest('.card__picture').src;
+  bigImage.alt = (evt.target.closest('.card').querySelector('.card__signature').textContent);
+  bigImageSignature.textContent = (evt.target.closest('.card').querySelector('.card__signature').textContent) 
 }
 
 // === Общая функция закрытия попапов ===
@@ -142,7 +146,7 @@ editProfileButton.addEventListener('click', popupOpenEditProfile); //клик п
 addPostButton.addEventListener('click', popupOpenAddPost); //клик по кнопке добавить пост вызывает функцию открытия попапа
 closeEditProfileButton.addEventListener('click', function(){popupClose(popupEditProfile)}); //клик по кнопке крестик вызывает функцию закрытия попапа
 closeAddPostButton.addEventListener('click', function(){popupClose(popupAddPost)}); //клик по кнопке крестик вызывает функцию закрытия попапа
-closeImageButton.addEventListener('click', function(){popupClose(popupImage)})
+closeImageButton.addEventListener('click', function(){popupClose(popupImage)}); //клик по кнопке крестик вызывает функцию закрытия попапа
 
 
 profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
