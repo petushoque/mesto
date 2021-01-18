@@ -9,6 +9,7 @@
     align-items: center;
 /* Механизм плавного открытия попапа */
     overflow: hidden;
-    height: 0; opacity: 0;
+    height: 0;
+    opacity: 0;
     transition: height 0ms 400ms, opacity 400ms 0ms;
 }
