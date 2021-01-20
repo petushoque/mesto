@@ -58,7 +58,7 @@ const initialCards = [
 
 //=== Функция создания карточки ===
 
-function renderPost (data) {    
+function getNewCard (data) {    
     const clone = cardTemplate.content.cloneNode(true);
     const image = clone.querySelector('.card__picture');
 
@@ -69,12 +69,13 @@ function renderPost (data) {
     clone.querySelector('.card__delete').addEventListener('click', handleDeletePost);
     clone.querySelector('.card__like').addEventListener('click', handleLikePost);
     
-    addPostToList(clone); //запуск функции добавления отрисованного поста на страницу
+    return clone;
 }
 
 //=== Функция добавления карточки на страницу ===
 
-function addPostToList (card) {
+function renderPost (data) {
+  const card = getNewCard(data)
   elements.prepend(card);
 }
 
