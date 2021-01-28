@@ -13,8 +13,10 @@ const popupAddPost = document.querySelector('.popup_type_add-post'); //пере�
 const popupImage = document.querySelector('.popup_type_image'); //переменная для попапа с просмотром картинки в большом разрешении
 const profileName = document.querySelector('.profile__name'); //переменная для имени профиля
 const profileStatus = document.querySelector('.profile__status') //переменная для статуса профиля
+
 const nameEditArea = document.querySelector('.popup__input_textarea_name'); //переменная для строки ввода нового имени
 const statusEditArea = document.querySelector('.popup__input_textarea_status'); //переменная для строки воода нового статуса
+
 const signatureArea = document.querySelector('.popup__input_textarea_signature'); //переменная для строки ввода подписи к новому посту
 const pictureArea = document.querySelector('.popup__input_textarea_picture'); //переменная для строки ввода ссылки на картинку для нового поста
 const elements = document.querySelector('.elements'); //переменная для всего списка карточек
@@ -170,3 +172,33 @@ closeImageButton.addEventListener('click', function(){closePopup(popupImage)}); 
 
 profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
 addPostForm.addEventListener('submit', handleFormSubmitAddPost);
+
+// ============ TEST VALIDATION ============
+
+const inputErrorArea = profileEditForm.querySelector(`.${nameEditArea.id}-error`);
+
+console.log(inputErrorArea)
+
+nameEditArea.addEventListener('input', isValid);
+
+function isValid() {
+  if (!nameEditArea.validity.valid) {
+    // Если поле не проходит валидацию, покажем ошибку
+    showInputError(nameEditArea);
+  } else {
+    // Если проходит, скроем
+    hideInputError(nameEditArea);
+  }
+}
+
+// Функция, которая добавляет класс с ошибкой
+const showInputError = (element) => {
+  element.classList.add('popup__input_type_error');
+  inputErrorArea.classList.add('popup__input-error_active');
+};
+
+// Функция, которая удаляет класс с ошибкой
+const hideInputError = (element) => {
+  element.classList.remove('popup__input_type_error');
+  inputErrorArea.classList.remove('popup__input-error_active');
+};
