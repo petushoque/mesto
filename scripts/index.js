@@ -93,7 +93,9 @@ renderPosts ()
 // === Общая функция открытия попапов ===
 
 function openPopup(location) {
-  location.classList.add('popup_active')
+  location.classList.add('popup_active');
+
+  //checkOpenForms(location);
 }
 
 // === Функция открывающая попап редактирующий профиль ===
@@ -110,6 +112,11 @@ function openAddPostPopup () {
     openPopup(popupAddPost);
     signatureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
     pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
+
+    //при каждом открытии попапа делаем кнопку неактивной, так как поля пустые//
+    const submitButton = popupAddPost.querySelector('.popup__save-button');
+    submitButton.disabled = true;
+    submitButton.classList.remove('popup__save-button_active')
 }
 
 // === Функция открывающая попап с крупной картинкой и подписью места ===
@@ -126,6 +133,9 @@ function openImagePopup (evt) {
 
 function closePopup(location) {
   location.classList.remove('popup_active')
+
+  //дальше тестовая функция
+  clearErrors(location);
 }
 
 // === Функция обработчик данных для формы редактирования профиля ===
@@ -175,30 +185,86 @@ addPostForm.addEventListener('submit', handleFormSubmitAddPost);
 
 // ============ TEST VALIDATION ============
 
+
 const inputErrorArea = profileEditForm.querySelector(`.${nameEditArea.id}-error`);
 
-console.log(inputErrorArea)
 
-nameEditArea.addEventListener('input', isValid);
+// Функция, которая добавляет класс с ошибкой
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('popup__input_type_error');
+  errorElement.textContent = errorMessage;
+};
 
-function isValid() {
-  if (!nameEditArea.validity.valid) {
-    // Если поле не проходит валидацию, покажем ошибку
-    showInputError(nameEditArea);
+
+// Функция, которая удаляет класс с ошибкой
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('popup__input_type_error');
+  errorElement.textContent = '';
+};
+
+function isValid(formElement, inputElement) {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
   } else {
-    // Если проходит, скроем
-    hideInputError(nameEditArea);
+    hideInputError(formElement, inputElement);
   }
 }
 
-// Функция, которая добавляет класс с ошибкой
-const showInputError = (element) => {
-  element.classList.add('popup__input_type_error');
-  inputErrorArea.classList.add('popup__input-error_active');
+// ===== ИЗ ТРЕНАЖЕРА =====
+
+function hasInvalidInput(inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+}
+
+const toggleButtonState = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.remove('popup__save-button_active');
+    buttonElement.disabled = true;
+  } else {
+    buttonElement.classList.add('popup__save-button_active');
+    buttonElement.disabled = false;
+  }
+}; 
+
+// =====   =====
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  const buttonElement = formElement.querySelector('.popup__save-button');
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      isValid(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
+    });
+  });
 };
 
-// Функция, которая удаляет класс с ошибкой
-const hideInputError = (element) => {
-  element.classList.remove('popup__input_type_error');
-  inputErrorArea.classList.remove('popup__input-error_active');
-};
+function enableValidation(){
+  const formList = Array.from(document.querySelectorAll('.popup')); 
+  formList.forEach((formElement) => {
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+  });
+    setEventListeners(formElement);
+}); 
+}
+
+  
+enableValidation()
+
+//=== Функция, очищающая поля с ошибками, если закрыть форму
+
+function clearErrors (formName) {
+  const errorList = Array.from(formName.querySelectorAll('.popup__input-error'));
+  errorList.forEach((errorMessage) => {
+    errorMessage.textContent = "";
+  })
+  const inputList = Array.from(formName.querySelectorAll('.popup__input'));
+  inputList.forEach((inputArea) => {
+    inputArea.classList.remove('popup__input_type_error')
+  })
+}
