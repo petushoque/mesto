@@ -93,9 +93,9 @@ renderPosts ()
 // === Общая функция открытия попапов ===
 
 function openPopup(location) {
-  location.classList.add('popup_active');
-
-  //checkOpenForms(location);
+  location.classList.add('popup_active'); //делаем нужный попап видимым
+  closePopupOverlay(location); //навешиваем обработчик события для клика по оверлею
+  closePopupEscape(location); //навешиваем обработчик события для клавиши Esc
 }
 
 // === Функция открывающая попап редактирующий профиль ===
@@ -161,17 +161,19 @@ function handleFormSubmitAddPost (evt) {
   closePopup(popupAddPost)
 }
 
-//=== Функция обработчик события, при клике по кнопке корзины карточка удаляется ===
+// === Функция обработчик события, при клике по кнопке корзины карточка удаляется ===
 
 function handleDeletePost (evt) {
     evt.target.closest('.card').remove();
 }
 
-//=== Функция обработчик события, при клике по кнопке лайка, вид кнопки меняется ===
+// === Функция обработчик события, при клике по кнопке лайка, вид кнопки меняется ===
 
 function handleLikePost (evt) {
     evt.target.classList.toggle('card__like_active')
 }
+
+// === Слушатели событий для кнопок ===
 
 editProfileButton.addEventListener('click', openEditProfilePopup); //клик по кнопке редактирования вызывает функцию открытия попапа
 addPostButton.addEventListener('click', openAddPostPopup); //клик по кнопке добавить пост вызывает функцию открытия попапа
@@ -179,30 +181,28 @@ closeEditProfileButton.addEventListener('click', function(){closePopup(popupEdit
 closeAddPostButton.addEventListener('click', function(){closePopup(popupAddPost)}); //клик по кнопке крестик вызывает функцию закрытия попапа
 closeImageButton.addEventListener('click', function(){closePopup(popupImage)}); //клик по кнопке крестик вызывает функцию закрытия попапа
 
+// === Слушатели событий для форм ===
 
 profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
 addPostForm.addEventListener('submit', handleFormSubmitAddPost);
 
-// ============ TEST VALIDATION ============
+// === Функция отображения ошибок ===
 
-
-const inputErrorArea = profileEditForm.querySelector(`.${nameEditArea.id}-error`);
-
-
-// Функция, которая добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add('popup__input_type_error');
   errorElement.textContent = errorMessage;
 };
 
+// === Функция скрытия ошибок ===
 
-// Функция, которая удаляет класс с ошибкой
 const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.remove('popup__input_type_error');
   errorElement.textContent = '';
 };
+
+// === Функция отображения или скрытия сообщений с ошибками ===
 
 function isValid(formElement, inputElement) {
   if (!inputElement.validity.valid) {
@@ -212,13 +212,15 @@ function isValid(formElement, inputElement) {
   }
 }
 
-// ===== ИЗ ТРЕНАЖЕРА =====
+// === Функция проверки валидности в полях ввода ===
 
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   })
 }
+
+// === Функция изменения состояния кнопки сабмит в зависимости от валидности инпутов ===
 
 const toggleButtonState = (inputList, buttonElement) => {
   if (hasInvalidInput(inputList)) {
@@ -230,7 +232,7 @@ const toggleButtonState = (inputList, buttonElement) => {
   }
 }; 
 
-// =====   =====
+// === Функция добавдения слушателей событий всем полям ввода ===
 
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
@@ -243,6 +245,8 @@ const setEventListeners = (formElement) => {
   });
 };
 
+// === Функция поиска всех форм на странице ===
+
 function enableValidation(){
   const formList = Array.from(document.querySelectorAll('.popup')); 
   formList.forEach((formElement) => {
@@ -253,18 +257,42 @@ function enableValidation(){
 }); 
 }
 
-  
+// === ЗАПУСК ПРОВЕРКИ ВАЛИДАЦИИ ПОЛЕЙ ВВОДА ===
+
 enableValidation()
 
 //=== Функция, очищающая поля с ошибками, если закрыть форму
 
 function clearErrors (formName) {
   const errorList = Array.from(formName.querySelectorAll('.popup__input-error'));
+  //стираем все сообщения ошибок
   errorList.forEach((errorMessage) => {
     errorMessage.textContent = "";
   })
   const inputList = Array.from(formName.querySelectorAll('.popup__input'));
+  //убираем класс с ошибками у полей ввода
   inputList.forEach((inputArea) => {
     inputArea.classList.remove('popup__input_type_error')
+  })
+}
+
+// === Функция закрытия попапа при клике по оверлею ===
+
+function closePopupOverlay (formName) {
+    formName.addEventListener('click', (evt) => {
+      if (evt.target === evt.currentTarget) {
+        closePopup(formName) 
+      }
+    });
+}
+
+// === Функция закрытия попапа при нажатии на Esc ===
+
+function closePopupEscape (formName) {
+  document.addEventListener('keydown', (evt) => {
+    const key = evt.key;
+    if (key === 'Escape') {
+      closePopup(formName)
+    }
   })
 }
