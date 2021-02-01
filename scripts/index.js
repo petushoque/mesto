@@ -188,27 +188,27 @@ addPostForm.addEventListener('submit', handleFormSubmitAddPost);
 
 // === Функция отображения ошибок ===
 
-const showInputError = (formElement, inputElement, errorMessage) => {
+const showInputError = (formElement, inputElement, errorMessage, validationList) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('popup__input_type_error');
+  inputElement.classList.add(validationList.inputErrorClass);
   errorElement.textContent = errorMessage;
 };
 
 // === Функция скрытия ошибок ===
 
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, validationList) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input_type_error');
+  inputElement.classList.remove(validationList.inputErrorClass);
   errorElement.textContent = '';
 };
 
 // === Функция отображения или скрытия сообщений с ошибками ===
 
-function isValid(formElement, inputElement) {
+function isValid(formElement, inputElement, validationList) {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage, validationList);
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, validationList);
   }
 }
 
@@ -222,46 +222,46 @@ function hasInvalidInput(inputList) {
 
 // === Функция изменения состояния кнопки сабмит в зависимости от валидности инпутов ===
 
-const toggleButtonState = (inputList, buttonElement) => {
+const toggleButtonState = (inputList, buttonElement, validationList) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.remove('popup__save-button_active');
+    buttonElement.classList.remove(validationList.activeButtonClass);
     buttonElement.disabled = true;
   } else {
-    buttonElement.classList.add('popup__save-button_active');
+    buttonElement.classList.add(validationList.activeButtonClass);
     buttonElement.disabled = false;
   }
 }; 
 
 // === Функция добавдения слушателей событий всем полям ввода ===
 
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-  const buttonElement = formElement.querySelector('.popup__save-button');
+const setEventListeners = (formElement, validationList) => {
+  const inputList = Array.from(formElement.querySelectorAll(validationList.inputSelector));
+  const buttonElement = formElement.querySelector(validationList.submitButtonSelector);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
-      isValid(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
+      isValid(formElement, inputElement, validationList);
+      toggleButtonState(inputList, buttonElement, validationList);
     });
   });
 };
 
 // === Функция поиска всех форм на странице ===
 
-function enableValidation(){
-  const formList = Array.from(document.querySelectorAll('.popup')); 
+function enableValidation(validationList){
+  const formList = Array.from(document.querySelectorAll(validationList.formSelector));
   formList.forEach((formElement) => {
   formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
   });
-    setEventListeners(formElement);
-}); 
+    setEventListeners(formElement, validationList);
+});
 }
 
 // === ЗАПУСК ПРОВЕРКИ ВАЛИДАЦИИ ПОЛЕЙ ВВОДА ===
 
-enableValidation()
+enableValidation(validationList)
 
-//=== Функция, очищающая поля с ошибками, если закрыть форму
+//=== Функция, очищающая поля с ошибками, если закрыть форму и открыть ее заново ===
 
 function clearErrors (formName) {
   const errorList = Array.from(formName.querySelectorAll('.popup__input-error'));
