@@ -94,14 +94,14 @@ renderPosts ()
 
 function openPopup(location) {
   location.classList.add('popup_active'); //делаем нужный попап видимым
-  closePopupOverlay(location); //навешиваем обработчик события для клика по оверлею
-  closePopupEscape(location); //навешиваем обработчик события для клавиши Esc
+  document.addEventListener('keydown', closePopupEscape); //при открытии попапа обработчик нажатия на оверлей добавляем
 }
 
 // === Функция открывающая попап редактирующий профиль ===
 
 function openEditProfilePopup () {
-    openPopup(popupEditProfile);
+    openPopup(popupEditProfile); //делаем попап видимым
+    clearErrors(popupEditProfile); //очищаем ошибки, если они были при прошлом вводе
     nameEditArea.value = profileName.textContent //значения в формах по умолчанию берем из профиля
     statusEditArea.value = profileStatus.textContent //значения в формах по умолчанию берем из профиля
 }
@@ -109,7 +109,8 @@ function openEditProfilePopup () {
 // === Функция открывающая попап добавляющий пост ===
 
 function openAddPostPopup () {
-    openPopup(popupAddPost);
+    openPopup(popupAddPost); //делаем попап видимым
+    clearErrors(popupAddPost); //очищаем ошибки, если они были при прошлом вводе
     signatureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
     pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
 
@@ -122,7 +123,7 @@ function openAddPostPopup () {
 // === Функция открывающая попап с крупной картинкой и подписью места ===
 
 function openImagePopup (evt) {
-  openPopup(popupImage);
+  openPopup(popupImage); //делаем попап видимым
   const image = evt.target.closest('.card__picture');
   bigImage.src = image.src;
   bigImage.alt = image.alt;
@@ -132,10 +133,8 @@ function openImagePopup (evt) {
 // === Общая функция закрытия попапов ===
 
 function closePopup(location) {
-  location.classList.remove('popup_active')
-
-  //дальше тестовая функция
-  clearErrors(location);
+  location.classList.remove('popup_active');
+  document.removeEventListener('keydown', closePopupEscape); //при закрытии попапа обработчик нажатия на оверлей убираем
 }
 
 // === Функция обработчик данных для формы редактирования профиля ===
@@ -186,96 +185,6 @@ closeImageButton.addEventListener('click', function(){closePopup(popupImage)}); 
 profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
 addPostForm.addEventListener('submit', handleFormSubmitAddPost);
 
-// === Функция отображения ошибок ===
-
-const showInputError = (formElement, inputElement, errorMessage, validationList) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(validationList.inputErrorClass);
-  errorElement.textContent = errorMessage;
-};
-
-// === Функция скрытия ошибок ===
-
-const hideInputError = (formElement, inputElement, validationList) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(validationList.inputErrorClass);
-  errorElement.textContent = '';
-};
-
-// === Функция отображения или скрытия сообщений с ошибками ===
-
-function isValid(formElement, inputElement, validationList) {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage, validationList);
-  } else {
-    hideInputError(formElement, inputElement, validationList);
-  }
-}
-
-// === Функция проверки валидности в полях ввода ===
-
-function hasInvalidInput(inputList) {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  })
-}
-
-// === Функция изменения состояния кнопки сабмит в зависимости от валидности инпутов ===
-
-const toggleButtonState = (inputList, buttonElement, validationList) => {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.remove(validationList.activeButtonClass);
-    buttonElement.disabled = true;
-  } else {
-    buttonElement.classList.add(validationList.activeButtonClass);
-    buttonElement.disabled = false;
-  }
-}; 
-
-// === Функция добавдения слушателей событий всем полям ввода ===
-
-const setEventListeners = (formElement, validationList) => {
-  const inputList = Array.from(formElement.querySelectorAll(validationList.inputSelector));
-  const buttonElement = formElement.querySelector(validationList.submitButtonSelector);
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      isValid(formElement, inputElement, validationList);
-      toggleButtonState(inputList, buttonElement, validationList);
-    });
-  });
-};
-
-// === Функция поиска всех форм на странице ===
-
-function enableValidation(validationList){
-  const formList = Array.from(document.querySelectorAll(validationList.formSelector));
-  formList.forEach((formElement) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-  });
-    setEventListeners(formElement, validationList);
-});
-}
-
-// === ЗАПУСК ПРОВЕРКИ ВАЛИДАЦИИ ПОЛЕЙ ВВОДА ===
-
-enableValidation(validationList)
-
-//=== Функция, очищающая поля с ошибками, если закрыть форму и открыть ее заново ===
-
-function clearErrors (formName) {
-  const errorList = Array.from(formName.querySelectorAll('.popup__input-error'));
-  //стираем все сообщения ошибок
-  errorList.forEach((errorMessage) => {
-    errorMessage.textContent = "";
-  })
-  const inputList = Array.from(formName.querySelectorAll('.popup__input'));
-  //убираем класс с ошибками у полей ввода
-  inputList.forEach((inputArea) => {
-    inputArea.classList.remove('popup__input_type_error')
-  })
-}
-
 // === Функция закрытия попапа при клике по оверлею ===
 
 function closePopupOverlay (formName) {
@@ -288,11 +197,16 @@ function closePopupOverlay (formName) {
 
 // === Функция закрытия попапа при нажатии на Esc ===
 
-function closePopupEscape (formName) {
-  document.addEventListener('keydown', (evt) => {
+function closePopupEscape (evt) {
+    const popupOpened = document.querySelector('.popup_active');
     const key = evt.key;
     if (key === 'Escape') {
-      closePopup(formName)
+      closePopup(popupOpened)
     }
-  })
 }
+
+// === Добавить слушатель события по нажатию на оверлей всем формам ===
+
+closePopupOverlay(popupEditProfile);
+closePopupOverlay(popupAddPost);
+closePopupOverlay(popupImage);
