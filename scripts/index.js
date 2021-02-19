@@ -58,37 +58,66 @@ const initialCards = [
     }
   ];
 
-//=== Функция создания карточки ===
+class Card {
+  constructor(data, cardSelector) {
+    this._title = data.name;
+    this._image = data.link;
+    this._cardSelector = cardSelector
+  }
 
-function getNewCard (data) {    
-    const clone = cardTemplate.content.cloneNode(true);
-    const image = clone.querySelector('.card__picture');
+  _getTemplate() {
+    const cardElement = document
+    .querySelector(this._cardSelector)
+    .content
+    .querySelector('.card')
+    .cloneNode(true);
+    return cardElement;
+  }
 
-    image.src = data.link;
-    image.alt = data.name;
-    image.addEventListener('click', openImagePopup);
-    clone.querySelector('.card__signature').textContent = data.name;
-    clone.querySelector('.card__delete').addEventListener('click', handleDeletePost);
-    clone.querySelector('.card__like').addEventListener('click', handleLikePost);
-    
-    return clone;
+  _setEventListeners() {
+    this._element.querySelector('.card__like').addEventListener('click', this._handleLikePost);
+    this._element.querySelector('.card__delete').addEventListener('click', this._handleDeletePost);
+    this._element.querySelector('.card__picture').addEventListener('click', this._openImagePopup);
+    };
+
+  _handleLikePost (evt) {
+    evt.target.classList.toggle('card__like_active')
+  }
+
+  _handleDeletePost (evt) {
+    evt.target.closest('.card').remove();
+  }
+
+  _openImagePopup (evt) {
+    openPopup(popupImage); //делаем попап видимым
+    const image = evt.target.closest('.card__picture');
+    bigImage.src = image.src;
+    bigImage.alt = image.alt;
+    bigImageSignature.textContent = image.alt; 
+  }
+
+  generateCard() {
+    this._element = this._getTemplate();
+    this._element.querySelector('.card__picture').src = this._image;
+    this._element.querySelector('.card__picture').alt = this._title;
+    this._element.querySelector('.card__signature').textContent = this._title;
+    this._setEventListeners();
+    return this._element;
+  }
+
+  
 }
 
-//=== Функция добавления карточки на страницу ===
+function renderElements (array) {
+  array.forEach((item) => {
+    const card = new Card (item, '.card-template')
+    const cardElement = card.generateCard();
+    elements.prepend(cardElement); //разворачиваем массив, чтобы выкладывать его в правильном порядке
+  });
+};
 
-function renderPost (data) {
-  const card = getNewCard(data)
-  elements.prepend(card);
-}
+renderElements(initialCards.reverse());
 
-//=== Функция создания карточек из стартового массива ===
-
-function renderPosts () {
-   const revInitialCards = initialCards.reverse(); //переворачиваем массив, чтобы карточки отображались в нужном порядке
-   revInitialCards.forEach(renderPost);
-}
- 
-renderPosts ()
 
 // === Общая функция открытия попапов ===
 
@@ -109,25 +138,15 @@ function openEditProfilePopup () {
 // === Функция открывающая попап добавляющий пост ===
 
 function openAddPostPopup () {
-    openPopup(popupAddPost); //делаем попап видимым
-    clearErrors(popupAddPost); //очищаем ошибки, если они были при прошлом вводе
-    signatureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
-    pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
+  openPopup(popupAddPost); //делаем попап видимым
+  clearErrors(popupAddPost); //очищаем ошибки, если они были при прошлом вводе
+  signatureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
+  pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
 
-    //при каждом открытии попапа делаем кнопку неактивной, так как поля пустые//
-    const submitButton = popupAddPost.querySelector('.popup__save-button');
-    submitButton.disabled = true;
-    submitButton.classList.remove('popup__save-button_active')
-}
-
-// === Функция открывающая попап с крупной картинкой и подписью места ===
-
-function openImagePopup (evt) {
-  openPopup(popupImage); //делаем попап видимым
-  const image = evt.target.closest('.card__picture');
-  bigImage.src = image.src;
-  bigImage.alt = image.alt;
-  bigImageSignature.textContent = image.alt; 
+  //при каждом открытии попапа делаем кнопку неактивной, так как поля пустые//
+  const submitButton = popupAddPost.querySelector('.popup__save-button');
+  submitButton.disabled = true;
+  submitButton.classList.remove('popup__save-button_active')
 }
 
 // === Общая функция закрытия попапов ===
@@ -137,13 +156,34 @@ function closePopup(location) {
   document.removeEventListener('keydown', closePopupEscape); //при закрытии попапа обработчик нажатия на оверлей убираем
 }
 
+// === Функция закрытия попапа при нажатии на Esc ===
+
+function closePopupEscape (evt) {
+  const popupOpened = document.querySelector('.popup_active');
+  const key = evt.key;
+  if (key === 'Escape') {
+    closePopup(popupOpened)
+  }
+}
+
+// === Функция закрытия попапа при клике по оверлею ===
+
+function closePopupOverlay (formName) {
+  formName.addEventListener('click', (evt) => {
+    if (evt.target === evt.currentTarget) {
+      closePopup(formName) 
+    }
+  });
+}
+
+
 // === Функция обработчик данных для формы редактирования профиля ===
 
 function handleFormSubmitEditProfile (evt) {
-    evt.preventDefault(); 
-    profileName.textContent = nameEditArea.value //в имя профиля записываем новые данные
-    profileStatus.textContent = statusEditArea.value //в статус профиля записываем новые данные
-    closePopup(popupEditProfile) //закрываем попап
+  evt.preventDefault(); 
+  profileName.textContent = nameEditArea.value //в имя профиля записываем новые данные
+  profileStatus.textContent = statusEditArea.value //в статус профиля записываем новые данные
+  closePopup(popupEditProfile) //закрываем попап
 }
 
 // === Функция обработчик данных для формы добавления новой карточки ===
@@ -156,53 +196,8 @@ function handleFormSubmitAddPost (evt) {
       link: pictureArea.value
     },
   ]
-  newPost.forEach(renderPost)
-  closePopup(popupAddPost)
-}
-
-// === Функция обработчик события, при клике по кнопке корзины карточка удаляется ===
-
-function handleDeletePost (evt) {
-    evt.target.closest('.card').remove();
-}
-
-// === Функция обработчик события, при клике по кнопке лайка, вид кнопки меняется ===
-
-function handleLikePost (evt) {
-    evt.target.classList.toggle('card__like_active')
-}
-
-// === Слушатели событий для кнопок ===
-
-editProfileButton.addEventListener('click', openEditProfilePopup); //клик по кнопке редактирования вызывает функцию открытия попапа
-addPostButton.addEventListener('click', openAddPostPopup); //клик по кнопке добавить пост вызывает функцию открытия попапа
-closeEditProfileButton.addEventListener('click', function(){closePopup(popupEditProfile)}); //клик по кнопке крестик вызывает функцию закрытия попапа
-closeAddPostButton.addEventListener('click', function(){closePopup(popupAddPost)}); //клик по кнопке крестик вызывает функцию закрытия попапа
-closeImageButton.addEventListener('click', function(){closePopup(popupImage)}); //клик по кнопке крестик вызывает функцию закрытия попапа
-
-// === Слушатели событий для форм ===
-
-profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
-addPostForm.addEventListener('submit', handleFormSubmitAddPost);
-
-// === Функция закрытия попапа при клике по оверлею ===
-
-function closePopupOverlay (formName) {
-    formName.addEventListener('click', (evt) => {
-      if (evt.target === evt.currentTarget) {
-        closePopup(formName) 
-      }
-    });
-}
-
-// === Функция закрытия попапа при нажатии на Esc ===
-
-function closePopupEscape (evt) {
-    const popupOpened = document.querySelector('.popup_active');
-    const key = evt.key;
-    if (key === 'Escape') {
-      closePopup(popupOpened)
-    }
+  renderElements(newPost)
+  closePopup(popupAddPost) //закрываем попап
 }
 
 // === Добавить слушатель события по нажатию на оверлей всем формам ===
@@ -210,3 +205,13 @@ function closePopupEscape (evt) {
 closePopupOverlay(popupEditProfile);
 closePopupOverlay(popupAddPost);
 closePopupOverlay(popupImage);
+
+editProfileButton.addEventListener('click', openEditProfilePopup); //клик по кнопке редактирования вызывает функцию открытия попапа
+closeEditProfileButton.addEventListener('click', function(){closePopup(popupEditProfile)}); //клик по кнопке крестик вызывает функцию закрытия попапа
+profileEditForm.addEventListener('submit', handleFormSubmitEditProfile);
+
+addPostButton.addEventListener('click', openAddPostPopup); //клик по кнопке добавить пост вызывает функцию открытия попапа
+closeAddPostButton.addEventListener('click', function(){closePopup(popupAddPost)}); //клик по кнопке крестик вызывает функцию закрытия попапа
+addPostForm.addEventListener('submit', handleFormSubmitAddPost);
+
+closeImageButton.addEventListener('click', function(){closePopup(popupImage)});
