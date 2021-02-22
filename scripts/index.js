@@ -1,3 +1,6 @@
+import {Card} from './Card.js';
+import {validationList, FormValidator, clearErrors} from './FormValidator.js'
+
 // === Кнопки ===
 
 const editProfileButton = document.querySelector('.profile__edit-button'); //переменная для кнопки редактирования профиля
@@ -58,61 +61,11 @@ const initialCards = [
     }
   ];
 
-class Card {
-  constructor(data, cardSelector) {
-    this._title = data.name;
-    this._image = data.link;
-    this._cardSelector = cardSelector
-  }
-
-  _getTemplate() {
-    const cardElement = document
-    .querySelector(this._cardSelector)
-    .content
-    .querySelector('.card')
-    .cloneNode(true);
-    return cardElement;
-  }
-
-  _setEventListeners() {
-    this._element.querySelector('.card__like').addEventListener('click', this._handleLikePost);
-    this._element.querySelector('.card__delete').addEventListener('click', this._handleDeletePost);
-    this._element.querySelector('.card__picture').addEventListener('click', this._openImagePopup);
-    };
-
-  _handleLikePost (evt) {
-    evt.target.classList.toggle('card__like_active')
-  }
-
-  _handleDeletePost (evt) {
-    evt.target.closest('.card').remove();
-  }
-
-  _openImagePopup (evt) {
-    openPopup(popupImage); //делаем попап видимым
-    const image = evt.target.closest('.card__picture');
-    bigImage.src = image.src;
-    bigImage.alt = image.alt;
-    bigImageSignature.textContent = image.alt; 
-  }
-
-  generateCard() {
-    this._element = this._getTemplate();
-    this._element.querySelector('.card__picture').src = this._image;
-    this._element.querySelector('.card__picture').alt = this._title;
-    this._element.querySelector('.card__signature').textContent = this._title;
-    this._setEventListeners();
-    return this._element;
-  }
-
-  
-}
-
 function renderElements (array) {
   array.forEach((item) => {
-    const card = new Card (item, '.card-template')
+    const card = new Card (item, '.card-template', openImagePopup)
     const cardElement = card.generateCard();
-    elements.prepend(cardElement); //разворачиваем массив, чтобы выкладывать его в правильном порядке
+    elements.prepend(cardElement);
   });
 };
 
@@ -149,6 +102,16 @@ function openAddPostPopup () {
   submitButton.classList.remove('popup__save-button_active')
 }
 
+// === Функция открывающая попап c большой картинкой ===
+
+function openImagePopup (evt) {
+  openPopup(popupImage); //делаем попап видимым
+  const image = evt.target.closest('.card__picture');
+  bigImage.src = image.src;
+  bigImage.alt = image.alt;
+  bigImageSignature.textContent = image.alt;
+}
+
 // === Общая функция закрытия попапов ===
 
 function closePopup(location) {
@@ -175,7 +138,6 @@ function closePopupOverlay (formName) {
     }
   });
 }
-
 
 // === Функция обработчик данных для формы редактирования профиля ===
 
@@ -215,3 +177,9 @@ closeAddPostButton.addEventListener('click', function(){closePopup(popupAddPost)
 addPostForm.addEventListener('submit', handleFormSubmitAddPost);
 
 closeImageButton.addEventListener('click', function(){closePopup(popupImage)});
+
+const addPostValid = new FormValidator(validationList, addPostForm);
+addPostValid.enableValidation();
+
+const editProfileValid = new FormValidator(validationList, profileEditForm);
+editProfileValid.enableValidation();
