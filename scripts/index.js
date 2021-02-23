@@ -1,5 +1,6 @@
 import {Card} from './Card.js';
-import {validationList, FormValidator, clearErrors} from './FormValidator.js'
+import {validationList, FormValidator} from './FormValidator.js';
+import {initialCards} from './initialCards.js';
 
 // === Кнопки ===
 
@@ -32,34 +33,7 @@ const bigImageSignature = document.querySelector('.popup__big-image-signature');
 const profileEditForm = document.forms.profileedit; //переменная для объекта-формы редактирования профиля
 const addPostForm = document.forms.addpost; //переменная для объекта-формы добавления нового поста
 
-//=== Массив стартовых карточек ===
-
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
+// === Функция добавления элементов на страницу ===
 
 function renderElements (array) {
   array.forEach((item) => {
@@ -83,7 +57,7 @@ function openPopup(location) {
 
 function openEditProfilePopup () {
     openPopup(popupEditProfile); //делаем попап видимым
-    clearErrors(popupEditProfile); //очищаем ошибки, если они были при прошлом вводе
+    editProfileValid.clearErrors() //очищаем ошибки, если они были при прошлом вводе
     nameEditArea.value = profileName.textContent //значения в формах по умолчанию берем из профиля
     statusEditArea.value = profileStatus.textContent //значения в формах по умолчанию берем из профиля
 }
@@ -91,15 +65,15 @@ function openEditProfilePopup () {
 // === Функция открывающая попап добавляющий пост ===
 
 function openAddPostPopup () {
-  openPopup(popupAddPost); //делаем попап видимым
-  clearErrors(popupAddPost); //очищаем ошибки, если они были при прошлом вводе
+  openPopup(popupAddPost); //делаем попап видимым  
+  addPostValid.clearErrors() //очищаем ошибки, если они были при прошлом вводе
   signatureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
   pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
 
   //при каждом открытии попапа делаем кнопку неактивной, так как поля пустые//
+
   const submitButton = popupAddPost.querySelector('.popup__save-button');
-  submitButton.disabled = true;
-  submitButton.classList.remove('popup__save-button_active')
+  addPostValid.disableSubmitButton(submitButton);
 }
 
 // === Функция открывающая попап c большой картинкой ===

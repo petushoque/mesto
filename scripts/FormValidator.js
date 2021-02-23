@@ -20,7 +20,7 @@ export class FormValidator {
     errorElement.textContent = errorMessage;
   };
   
-  _hideInputError (inputElement, validationList) {
+  _hideInputError (inputElement) {
     const errorElement = this._formCheck.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(this._validationList.inputErrorClass);
     errorElement.textContent = '';
@@ -42,11 +42,9 @@ export class FormValidator {
 
   _toggleButtonState(inputList, buttonElement) {
     if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.remove(this._validationList.activeButtonClass);
-      buttonElement.disabled = true;
+      this.disableSubmitButton(buttonElement);
     } else {
-      buttonElement.classList.add(this._validationList.activeButtonClass);
-      buttonElement.disabled = false;
+      this._enableSubmitButton(buttonElement);
     }
 };
 
@@ -54,7 +52,7 @@ export class FormValidator {
     const inputList = Array.from(this._formCheck.querySelectorAll(this._validationList.inputSelector));
     const buttonElement = this._formCheck.querySelector(this._validationList.submitButtonSelector);
     inputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', /*function*/ () => {
+      inputElement.addEventListener('input', () => {
         this._isValid(inputElement);
         this._toggleButtonState(inputList, buttonElement);
       });
@@ -68,19 +66,29 @@ export class FormValidator {
     this._setEventListeners();
   }
 
-}
+  disableSubmitButton(buttonElement){
+    buttonElement.classList.remove(this._validationList.activeButtonClass);
+    buttonElement.disabled = true;
+  }
 
-//=== Функция, очищающая поля с ошибками, если закрыть форму и открыть ее заново ===
+  _enableSubmitButton(buttonElement){
+    buttonElement.classList.add(this._validationList.activeButtonClass);
+    buttonElement.disabled = false;
+  }
 
-export function clearErrors (formName) {
-  const errorList = Array.from(formName.querySelectorAll('.popup__input-error'));
+  //=== Функция, очищающая поля с ошибками, если закрыть форму и открыть ее заново ===
+
+  clearErrors () {
+    const errorList = Array.from(this._formCheck.querySelectorAll('.popup__input-error'));
   //стираем все сообщения ошибок
-  errorList.forEach((errorMessage) => {
-    errorMessage.textContent = "";
-  })
-  const inputList = Array.from(formName.querySelectorAll('.popup__input'));
+    errorList.forEach((errorMessage) => {
+      errorMessage.textContent = "";
+    })
+    const inputList = Array.from(this._formCheck.querySelectorAll('.popup__input'));
   //убираем класс с ошибками у полей ввода
-  inputList.forEach((inputArea) => {
-    inputArea.classList.remove('popup__input_type_error')
-  })
+    inputList.forEach((inputArea) => {
+      inputArea.classList.remove('popup__input_type_error')
+    })
+  }
 }
+
