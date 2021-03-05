@@ -1,50 +1,34 @@
-import {Card} from './Card.js';
-import {validationList, FormValidator} from './FormValidator.js';
-import {initialCards} from './initialCards.js';
+import {Card} from '../components/Card.js';
+import {validationList, FormValidator} from '../scripts/FormValidator.js';
+import {initialCards} from '../scripts/initialCards.js';
 
-// === Кнопки ===
 
-const editProfileButton = document.querySelector('.profile__edit-button'); //переменная для кнопки редактирования профиля
-const closeEditProfileButton = document.querySelector('.popup__close-button_type_edit-profile'); //переменная для крестика закрытия попапа с редактированием профиля
-const addPostButton = document.querySelector('.profile__add-button'); //переменная для кнопки добавления нового поста
-const closeAddPostButton = document.querySelector('.popup__close-button_type_add-post'); //переменная для крестика закрытия попапа с добавлением нового поста
-const closeImageButton = document.querySelector('.popup__close-button_type_image'); //переменная для крестика закрытия попапа с крупным изображением
+import { Section } from '../components/Section.js'
 
-// === Элементы страницы ===
+import { popupEditProfile } from '../utils/constants.js';
+import { popupAddPost } from '../utils/constants.js';
+import { popupImage } from '../utils/constants.js';
+import { editProfileButton } from '../utils/constants.js';
+import { closeEditProfileButton} from '../utils/constants.js';
+import { closeAddPostButton } from '../utils/constants.js';
+import { closeImageButton } from '../utils/constants.js';
+import { addPostButton } from '../utils/constants.js';
+import { profileEditForm } from '../utils/constants.js';
+import { addPostForm } from '../utils/constants.js';
 
-const popupEditProfile = document.querySelector('.popup_type_edit-profile'); //переменная для попапа с редактированием профиля
-const popupAddPost = document.querySelector('.popup_type_add-post'); //переменная для попапа с добавлением нового поста
-const popupImage = document.querySelector('.popup_type_image'); //переменная для попапа с просмотром картинки в большом разрешении
-const profileName = document.querySelector('.profile__name'); //переменная для имени профиля
-const profileStatus = document.querySelector('.profile__status') //переменная для статуса профиля
-
-const nameEditArea = document.querySelector('.popup__input_textarea_name'); //переменная для строки ввода нового имени
-const statusEditArea = document.querySelector('.popup__input_textarea_status'); //переменная для строки воода нового статуса
-
-const signatureArea = document.querySelector('.popup__input_textarea_signature'); //переменная для строки ввода подписи к новому посту
-const pictureArea = document.querySelector('.popup__input_textarea_picture'); //переменная для строки ввода ссылки на картинку для нового поста
-const elements = document.querySelector('.elements'); //переменная для всего списка карточек
-const cardTemplate = document.querySelector('.card-template') //переменная для шаблона карточки поста
-const bigImage = document.querySelector('.popup__big-image'); //переменная для картинки в высоком разрешении
-const bigImageSignature = document.querySelector('.popup__big-image-signature'); //переменная для подписи к картинке в высоком разрешении
-
-//=== Формы с вводом данных ===
-
-const profileEditForm = document.forms.profileedit; //переменная для объекта-формы редактирования профиля
-const addPostForm = document.forms.addpost; //переменная для объекта-формы добавления нового поста
-
-// === Функция добавления элементов на страницу ===
-
-function renderElements (array) {
-  array.forEach((item) => {
-    const card = new Card (item, '.card-template', openImagePopup)
+const cardList = new Section({ 
+  data: initialCards,
+  renderer: (item) => {
+    const card = new Card (item, '.card-template');
     const cardElement = card.generateCard();
-    elements.prepend(cardElement);
-  });
-};
+    cardList.addItem(cardElement);
+    }
+  },
+  '.elements');
 
-renderElements(initialCards.reverse());
+//renderElements(initialCards.reverse());
 
+cardList.renderItems()
 
 // === Общая функция открытия попапов ===
 
