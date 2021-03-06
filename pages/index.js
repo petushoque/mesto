@@ -16,6 +16,8 @@ import { addPostButton } from '../utils/constants.js';
 import { profileEditForm } from '../utils/constants.js';
 import { addPostForm } from '../utils/constants.js';
 
+import { Popup } from '../components/Popup.js'
+
 const cardList = new Section({ 
   data: initialCards,
   renderer: (item) => {
@@ -26,9 +28,28 @@ const cardList = new Section({
   },
   '.elements');
 
-//renderElements(initialCards.reverse());
 
 cardList.renderItems()
+
+const addPostPopup = new Popup ('.popup_type_add-post');
+addPostPopup.setEventListeners();
+
+
+addPostButton.addEventListener('click', function(){addPostPopup.open()})
+
+
+
+
+
+
+
+const addPostValid = new FormValidator(validationList, addPostForm);
+addPostValid.enableValidation();
+
+const editProfileValid = new FormValidator(validationList, profileEditForm);
+editProfileValid.enableValidation();
+/*
+
 
 // === Общая функция открытия попапов ===
 
@@ -136,8 +157,5 @@ addPostForm.addEventListener('submit', handleFormSubmitAddPost);
 
 closeImageButton.addEventListener('click', function(){closePopup(popupImage)});
 
-const addPostValid = new FormValidator(validationList, addPostForm);
-addPostValid.enableValidation();
 
-const editProfileValid = new FormValidator(validationList, profileEditForm);
-editProfileValid.enableValidation();
+*/

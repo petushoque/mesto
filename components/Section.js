@@ -17,29 +17,3 @@ export class Section {
         });
       }
 }
-
-/*
-
-
-
-
-renderItems() {    
-        this._renderedItems.reverse().forEach(item => {
-          const card = new Card (item, '.card-template');    
-          const cardElement = card.generateCard();    
-          this.setItem(cardElement);
-        });
-      }
-
-
-
-//================== ТОЛЬКО ВРЕМЕННО ===========================
-/*
-function openImagePopup (evt) {
-    openPopup(popupImage); //делаем попап видимым
-    const image = evt.target.closest('.card__picture');
-    bigImage.src = image.src;
-    bigImage.alt = image.alt;
-    bigImageSignature.textContent = image.alt;
-  }
-  */
