@@ -16,7 +16,10 @@ import { addPostButton } from '../utils/constants.js';
 import { profileEditForm } from '../utils/constants.js';
 import { addPostForm } from '../utils/constants.js';
 
-import { Popup } from '../components/Popup.js'
+import { Popup } from '../components/Popup.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { UserInfo } from '../components/UserInfo.js'
+import { PopupWithForm } from '../components/PopupWithForm.js';
 
 const cardList = new Section({ 
   data: initialCards,
@@ -31,15 +34,43 @@ const cardList = new Section({
 
 cardList.renderItems()
 
+//==========
+
 const addPostPopup = new Popup ('.popup_type_add-post');
 addPostPopup.setEventListeners();
 
-
 addPostButton.addEventListener('click', function(){addPostPopup.open()})
 
+//==========
+
+const imagePopup = new Popup('.popup_type_image');
+imagePopup.setEventListeners();
+
+//==========
+
+const editProfile = new UserInfo({
+  username: '.profile__name',
+  status: '.profile__status'})
+
+const editProfilePopup = new PopupWithForm ('.popup_type_edit-profile',
+  function(evt){
+    //evt.preventDefault(); 
+    console.log(this._selector)
+    console.log(evt)
+
+    
+
+    this.close()
+    //profileName.textContent = nameEditArea.value //в имя профиля записываем новые данные
+    //profileStatus.textContent = statusEditArea.value //в статус профиля записываем новые данные
+    //this.close() //закрываем попап
+  }
+)
+editProfilePopup.setEventListeners();
 
 
-
+editProfile.printConsole()
+editProfileButton.addEventListener('click', function(){editProfilePopup.open()})
 
 
 
