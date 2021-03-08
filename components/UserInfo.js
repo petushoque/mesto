@@ -13,8 +13,4 @@ export class UserInfo {
         this._username = document.querySelector('.popup__input_textarea_name').value;
         this._status = document.querySelector('.popup__input_textarea_status').value;
     }
-    printConsole() {
-        this.setUserInfo;
-        console.log(this._username + ' ' + this._status)
-    }
 }

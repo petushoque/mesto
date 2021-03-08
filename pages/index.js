@@ -5,9 +5,6 @@ import {initialCards} from '../scripts/initialCards.js';
 
 import { Section } from '../components/Section.js'
 
-import { popupEditProfile } from '../utils/constants.js';
-import { popupAddPost } from '../utils/constants.js';
-import { popupImage } from '../utils/constants.js';
 import { editProfileButton } from '../utils/constants.js';
 import { closeEditProfileButton} from '../utils/constants.js';
 import { closeAddPostButton } from '../utils/constants.js';
@@ -21,6 +18,8 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { UserInfo } from '../components/UserInfo.js'
 import { PopupWithForm } from '../components/PopupWithForm.js';
 
+//===== Секциями с карточками =====
+
 const cardList = new Section({ 
   data: initialCards,
   renderer: (item) => {
@@ -31,20 +30,7 @@ const cardList = new Section({
   },
   '.elements');
 
-
 cardList.renderItems()
-
-//==========
-
-const addPostPopup = new Popup ('.popup_type_add-post');
-addPostPopup.setEventListeners();
-
-addPostButton.addEventListener('click', function(){addPostPopup.open()})
-
-//==========
-
-const imagePopup = new Popup('.popup_type_image');
-imagePopup.setEventListeners();
 
 //==========
 
@@ -52,33 +38,61 @@ const editProfile = new UserInfo({
   username: '.profile__name',
   status: '.profile__status'})
 
+//===== Попап добавления нового поста на страницу =====
+
+const addPostPopup = new PopupWithForm ('.popup_type_add-post',
+  function(){
+
+    //создаем по введенным в формы данным новую карточку
+    const addPost = new Card ({
+      name: this._getInputValues()[0].value,
+      link: this._getInputValues()[1].value},
+      '.card-template')
+
+    //вызываем функцию создания карточки и добавляем ее на страницу
+    cardList.addItem(addPost.generateCard())
+
+    //закрываем попап
+    this.close();
+  }
+)
+addPostPopup.setEventListeners();
+addPostButton.addEventListener('click', function(){addPostPopup.open()})
+
+//===== Попап редактирования данных профиля =====
+
 const editProfilePopup = new PopupWithForm ('.popup_type_edit-profile',
-  function(evt){
-    //evt.preventDefault(); 
-    console.log(this._selector)
-    console.log(evt)
-
-    
-
+  function(){
+    document.querySelector('.profile__name').textContent = this._getInputValues()[0].value;
+    document.querySelector('.profile__status').textContent = this._getInputValues()[1].value;
     this.close()
-    //profileName.textContent = nameEditArea.value //в имя профиля записываем новые данные
-    //profileStatus.textContent = statusEditArea.value //в статус профиля записываем новые данные
-    //this.close() //закрываем попап
   }
 )
 editProfilePopup.setEventListeners();
-
-
-editProfile.printConsole()
 editProfileButton.addEventListener('click', function(){editProfilePopup.open()})
 
+//===== Попап с открывающейся большой картинкой =====
 
+const imagePopup = new PopupWithImage ('.popup_type_image')
+
+//===== Валидация полей ввода формы с добавлением нового поста =====
 
 const addPostValid = new FormValidator(validationList, addPostForm);
 addPostValid.enableValidation();
 
+//===== Валидация полей ввода формы с редактированием данных профиля =====
+
 const editProfileValid = new FormValidator(validationList, profileEditForm);
 editProfileValid.enableValidation();
+
+
+
+
+
+
+
+const imagePopup = new Popup('.popup_type_image');
+imagePopup.setEventListeners();
 /*
 
 
