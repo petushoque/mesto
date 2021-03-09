@@ -8,6 +8,7 @@ export class UserInfo {
             username: this._username,
             status: this._status
         }
+        return info
     }
     setUserInfo() {
         this._username = document.querySelector('.popup__input_textarea_name').value;

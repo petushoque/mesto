@@ -27,9 +27,19 @@ const cardList = new Section({
 
 cardList.renderItems()
 
-//==========
+//===== Валидация полей ввода формы с добавлением нового поста =====
 
-const editProfile = new UserInfo({
+const addPostValid = new FormValidator(validationList, addPostForm);
+addPostValid.enableValidation();
+
+//===== Валидация полей ввода формы с редактированием данных профиля =====
+
+const editProfileValid = new FormValidator(validationList, profileEditForm);
+editProfileValid.enableValidation();
+
+//===========================================================
+
+const profile = new UserInfo({
   username: '.profile__name',
   status: '.profile__status'})
 
@@ -48,25 +58,39 @@ const addPostPopup = new PopupWithForm ('.popup_type_add-post',
 
     //вызываем функцию создания карточки и добавляем ее на страницу
     cardList.addItem(addPost.generateCard())
-
     //закрываем попап
     this.close();
   }
 )
 addPostPopup.setEventListeners();
-addPostButton.addEventListener('click', function(){addPostPopup.open()})
+addPostButton.addEventListener('click', function(){
+  //сброс сообщений с ошибками
+  addPostValid.clearErrors();
+  //открытие попапа
+  addPostPopup.open()})
 
 //===== Попап редактирования данных профиля =====
 
 const editProfilePopup = new PopupWithForm ('.popup_type_edit-profile',
   function(){
+    //записываем новые данные о имени и статусе из форм ввода
     document.querySelector('.profile__name').textContent = this._getInputValues()[0].value;
     document.querySelector('.profile__status').textContent = this._getInputValues()[1].value;
+    //обновляем информация о пользователе
+    profile.setUserInfo()
+    //закрываем попап
     this.close()
   }
 )
 editProfilePopup.setEventListeners();
-editProfileButton.addEventListener('click', function(){editProfilePopup.open()})
+editProfileButton.addEventListener('click', function(){
+  //сброс сообщений с ошибками
+  editProfileValid.clearErrors();
+  //заполнение форм текущими значениями из профиля
+  editProfilePopup._getInputValues()[0].value = profile.getUserInfo().username;
+  editProfilePopup._getInputValues()[1].value = profile.getUserInfo().status;
+  //открытие попапа
+  editProfilePopup.open()})
 
 //===== Попап с открывающейся большой картинкой =====
 
@@ -78,15 +102,7 @@ imagePopup.setEventListeners()
 function handleCardClick(evt) {
   imagePopup.open(evt)
 
-//===== Валидация полей ввода формы с добавлением нового поста =====
 
-const addPostValid = new FormValidator(validationList, addPostForm);
-addPostValid.enableValidation();
-
-//===== Валидация полей ввода формы с редактированием данных профиля =====
-
-const editProfileValid = new FormValidator(validationList, profileEditForm);
-editProfileValid.enableValidation();
 
 
 
