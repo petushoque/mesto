@@ -66,8 +66,12 @@ addPostPopup.setEventListeners();
 addPostButton.addEventListener('click', function(){
   //сброс сообщений с ошибками
   addPostValid.clearErrors();
+  //при каждом открытии попапа делаем кнопку неактивной, так как поля пустые//
+  const submitButton = addPostForm.querySelector('.popup__save-button');
+  addPostValid.disableSubmitButton(submitButton);
   //открытие попапа
-  addPostPopup.open()})
+  addPostPopup.open(); 
+})
 
 //===== Попап редактирования данных профиля =====
 
@@ -101,43 +105,4 @@ imagePopup.setEventListeners()
 
 function handleCardClick(evt) {
   imagePopup.open(evt)
-
-
-
-
-
-
-
-
-
 }
-
-/*
-
-
-// === Функция открывающая попап редактирующий профиль ===
-
-function openEditProfilePopup () {
-    openPopup(popupEditProfile); //делаем попап видимым
-    editProfileValid.clearErrors() //очищаем ошибки, если они были при прошлом вводе
-    nameEditArea.value = profileName.textContent //значения в формах по умолчанию берем из профиля
-    statusEditArea.value = profileStatus.textContent //значения в формах по умолчанию берем из профиля
-}
-
-// === Функция открывающая попап добавляющий пост ===
-
-function openAddPostPopup () {
-  openPopup(popupAddPost); //делаем попап видимым  
-  addPostValid.clearErrors() //очищаем ошибки, если они были при прошлом вводе
-  signatureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
-  pictureArea.value = ""; //очищаем поля, если в форму уже что-то вводили
-
-  //при каждом открытии попапа делаем кнопку неактивной, так как поля пустые//
-
-  const submitButton = popupAddPost.querySelector('.popup__save-button');
-  addPostValid.disableSubmitButton(submitButton);
-}
-
-
-
-*/
