@@ -1,10 +1,10 @@
 export class Card {
-    constructor(data, cardSelector, openPopup) {
+    constructor(data, cardSelector, handleCardClick) {
       this._title = data.name;
       this._image = data.link;
       this._cardSelector = cardSelector
 
-      this._openImagePopup = openPopup;
+      this._openImagePopup = handleCardClick;
     }
   
     _getTemplate() {

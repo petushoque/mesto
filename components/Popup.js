@@ -8,6 +8,7 @@ export class Popup {
     }
     close() {
         this._selector.classList.remove('popup_active');
+        document.removeEventListener('keydown', this._handleEscapeClose);
     }
     _handleEscapeClose() {
         document.addEventListener('keydown', (evt) => {
@@ -17,6 +18,16 @@ export class Popup {
             }
         })
     }
+
+    //ТУТ ПЕРЕДЕЛАТЬ
+    
+    _handleOverlayClose() {
+        formName.addEventListener('click', (evt) => {
+          if (evt.target === evt.currentTarget) {
+            closePopup(formName) 
+          }
+        });
+      }
     setEventListeners() {
         const closeButton = this._selector.querySelector('.popup__close-button');
         closeButton.addEventListener('click', () => {this.close()})

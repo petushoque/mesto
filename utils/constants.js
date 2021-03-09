@@ -1,10 +1,7 @@
 // === Кнопки ===
 
 export const editProfileButton = document.querySelector('.profile__edit-button'); //переменная для кнопки редактирования профиля
-export const closeEditProfileButton = document.querySelector('.popup__close-button_type_edit-profile'); //переменная для крестика закрытия попапа с редактированием профиля
 export const addPostButton = document.querySelector('.profile__add-button'); //переменная для кнопки добавления нового поста
-export const closeAddPostButton = document.querySelector('.popup__close-button_type_add-post'); //переменная для крестика закрытия попапа с добавлением нового поста
-export const closeImageButton = document.querySelector('.popup__close-button_type_image'); //переменная для крестика закрытия попапа с крупным изображением
 
 // === Элементы страницы ===
 
