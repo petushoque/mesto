@@ -124,23 +124,4 @@ function openAddPostPopup () {
 
 
 
-
-// === Функция закрытия попапа при клике по оверлею ===
-
-function closePopupOverlay (formName) {
-  formName.addEventListener('click', (evt) => {
-    if (evt.target === evt.currentTarget) {
-      closePopup(formName) 
-    }
-  });
-}
-
-
-// === Добавить слушатель события по нажатию на оверлей всем формам ===
-
-closePopupOverlay(popupEditProfile);
-closePopupOverlay(popupAddPost);
-closePopupOverlay(popupImage);
-
-
 */
