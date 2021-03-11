@@ -4,7 +4,7 @@
   "description": "Проектная работа по окнчанию 4-го спринта в программе обучения профессии \"веб-разработчик\" на Яндекс.Практикум. Впервые в работе был использован JavaScript, для реализации простейших взаимодействием со страницей, редактирования имени и статуса в профиле.\r Сайт адаптивен и удобно отображается на различных устройствах, от самых маленьких (размер экрана: 320px) до стремящихся к бесконечности :)",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && webpack --mode production",
+    "build": "webpack --mode production",
     "dev": "webpack serve"
   },
   "repository": {
@@ -18,10 +18,7 @@
   },
   "homepage": "https://github.com/petushoque/mesto#readme",
   "dependencies": {
-    "core-js": "^3.9.1",
-    "jquery": "^3.6.0",
-    "rifraf": "^2.0.3",
-    "rimraf": "^3.0.2"
+    "core-js": "^3.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
