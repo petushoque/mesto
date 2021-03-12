@@ -7,9 +7,16 @@ export class PopupWithForm extends Popup {
         this.submitForm = submitForm;
     }
     _getInputValues() {
-        //собираем в массив все поля ввода формы
-        const inputList = Array.from(this._popup.querySelectorAll('.popup__input'));
-        return inputList
+        // достаём все элементы полей
+        this._inputList = this._popup.querySelectorAll('.popup__input');
+        // создаём пустой объект
+        this._formValues = {};
+        // добавляем в этот объект значения всех полей
+        this._inputList.forEach(input => {
+            this._formValues[input.name] = input.value;
+        });
+        // возвращаем объект значений
+        return this._formValues;        
     }
     setEventListeners() {   
         //навешиваем слушатель клика по крестику закрытия формы  
@@ -18,15 +25,12 @@ export class PopupWithForm extends Popup {
         //добавляем обработчик события сабмита формы
         this._popup.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this.submitForm()})
+            this.submitForm(this._getInputValues())})
     }
     close() {
         //закрыть попап нажатием на крестик
         super.close();
-        
         //очистить поля ввода
-        this._getInputValues()[0].value = '';
-        this._getInputValues()[1].value = '';
+        this._popup.querySelector('form').reset();
     }
-
 }

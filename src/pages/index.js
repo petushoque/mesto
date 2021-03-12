@@ -15,14 +15,19 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { UserInfo } from '../components/UserInfo.js'
 import { PopupWithForm } from '../components/PopupWithForm.js';
 
+//===== Функция создания новой карточки =====
+
+function createNewCard (data) {
+    const card = new Card (data, '.card-template', handleCardClick);
+    return card.generateCard();
+}
+
 //===== Секциями с карточками =====
 
 const cardList = new Section({ 
   data: initialCards,
   renderer: (item) => {
-    const card = new Card (item, '.card-template', handleCardClick);
-    const cardElement = card.generateCard();
-    cardList.addItem(cardElement);
+    cardList.addItem(createNewCard(item))
     }
   },
   '.elements');
@@ -48,18 +53,12 @@ const profile = new UserInfo({
 //===== Попап добавления нового поста на страницу =====
 
 const addPostPopup = new PopupWithForm ('.popup_type_add-post',
-  function(){
+  function(formValues){
+    //создаем по введенным в формы данным новую карточку и добавляем ее на страницу
+    cardList.addItem(createNewCard({
+      name: formValues.signature,
+      link: formValues.picture}))
 
-    //создаем по введенным в формы данным новую карточку
-    const addPost = new Card ({
-      name: this._getInputValues()[0].value,
-      link: this._getInputValues()[1].value},
-      '.card-template',
-      handleCardClick
-      )
-
-    //вызываем функцию создания карточки и добавляем ее на страницу
-    cardList.addItem(addPost.generateCard())
     //закрываем попап
     this.close();
   }
@@ -78,13 +77,9 @@ addPostButton.addEventListener('click', function(){
 //===== Попап редактирования данных профиля =====
 
 const editProfilePopup = new PopupWithForm ('.popup_type_edit-profile',
-  function(){
+  function(formValues){
     //записываем новые данные о имени и статусе из форм ввода
-    document.querySelector('.profile__name').textContent = this._getInputValues()[0].value;
-    document.querySelector('.profile__status').textContent = this._getInputValues()[1].value;
-    //обновляем информация о пользователе
-    profile.setUserInfo()
-    //закрываем попап
+    profile.setUserInfo(formValues.username, formValues.status)
     this.close()
   }
 )
@@ -93,8 +88,8 @@ editProfileButton.addEventListener('click', function(){
   //сброс сообщений с ошибками
   editProfileValid.clearErrors();
   //заполнение форм текущими значениями из профиля
-  editProfilePopup._getInputValues()[0].value = profile.getUserInfo().username;
-  editProfilePopup._getInputValues()[1].value = profile.getUserInfo().status;
+  document.forms.profileedit.username.value = profile.getUserInfo().username;
+  document.forms.profileedit.status.value = profile.getUserInfo().status;
   //открытие попапа
   editProfilePopup.open()})
 
