@@ -19,8 +19,8 @@ export class Card {
     _setEventListeners() {
       this._element.querySelector('.card__like').addEventListener('click', this._handleLikePost);
       this._element.querySelector('.card__delete').addEventListener('click', this._handleDeletePost);
-      this._element.querySelector('.card__picture').addEventListener('click', this._openImagePopup);
-      };
+      this._element.querySelector('.card__picture').addEventListener('click', () => this._openImagePopup(this._title, this._image));
+    };
   
     _handleLikePost (evt) {
       evt.target.classList.toggle('card__like_active')

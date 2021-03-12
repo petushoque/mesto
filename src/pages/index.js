@@ -105,6 +105,6 @@ imagePopup.setEventListeners()
 
 //===== Функция, для передачи в класс Card метода из класса PopupWithImage
 
-function handleCardClick(evt) {
-  imagePopup.open(evt)
+function handleCardClick(title, image) {
+  imagePopup.open(title, image)
 }

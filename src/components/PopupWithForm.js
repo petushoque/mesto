@@ -4,11 +4,11 @@ import { Popup } from './Popup.js';
 export class PopupWithForm extends Popup {
     constructor(selector, submitForm) {
         super(selector);
-        this.submitForm = submitForm
+        this.submitForm = submitForm;
     }
     _getInputValues() {
         //собираем в массив все поля ввода формы
-        const inputList = Array.from(this._selector.querySelectorAll('.popup__input'));
+        const inputList = Array.from(this._popup.querySelectorAll('.popup__input'));
         return inputList
     }
     setEventListeners() {   
@@ -16,7 +16,7 @@ export class PopupWithForm extends Popup {
         super.setEventListeners()
         
         //добавляем обработчик события сабмита формы
-        this._selector.addEventListener('submit', (evt) => {
+        this._popup.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this.submitForm()})
     }
