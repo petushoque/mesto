@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Проект: Место</title>
+</head>
+
+<body>
+
+<div class="page">
+    
+  <header class="header">
+    <img class="header__logo" src="<%=require('./images/logo-mesto.svg')%>" alt="Логотип сайта">
+  </header>
+
+  <main class="main">
+    
+    <section class="profile">
+      <div class="profile__avatar"></div>  
+      <div class="profile__user">      
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <button class="profile__edit-button" type="button"></button>
+      </div>
+      <p class="profile__status">Исследователь океана</p>
+      <button class="profile__add-button" type="button"></button>
+    </section>
+
+    <section class="elements">
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p class="footer__copyright">&#169; 2021 Mesto Russia</p>
+  </footer>
+
+  <section class="popup popup_type_edit-profile">
+    <div class="popup__container">
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <form name="profileedit" novalidate>
+        <input class="popup__input popup__input_textarea_name" id="input-name" name="username" type="text" placeholder="Введите имя" required minlength="2" maxlength="40">
+        <span class="popup__input-error input-name-error"></span>
+        <input class="popup__input popup__input_textarea_status" id="input-status" name="status" type="text" placeholder="Введите статус" required minlength="2" maxlength="200">
+        <span class="popup__input-error input-status-error"></span>
+        <button class="popup__save-button popup__save-button_active" type="submit">Сохранить</button>
+      </form>
+      <button class="popup__close-button popup__close-button_type_edit-profile" type="button"></button>
+    </div>
+  </section>
+
+  <section class="popup popup_type_add-post">
+    <div class="popup__container">
+      <h2 class="popup__title">Новое место</h2>
+      <form name="addpost" novalidate>
+        <input class="popup__input popup__input_textarea_signature" id="input-signature" name="signature" type="text" placeholder="Название" required minlength="2" maxlength="30">
+        <span class="popup__input-error input-signature-error"></span>
+        <input class="popup__input popup__input_textarea_picture" id="input-picture" name="picture" type="url" placeholder="Ссылка на картинку" required>
+        <span class="popup__input-error input-picture-error"></span>
+        <button class="popup__save-button" type="submit" disabled>Создать</button>
+      </form>
+      <button class="popup__close-button popup__close-button_type_add-post" type="button"></button>
+    </div>
+  </section>
+
+  <section class="popup popup_type_image">
+    <div class="popup__image-container">
+      <img class="popup__big-image" src=" " alt=" ">
+      <button class="popup__close-button popup__close-button_type_image" type="button"></button>
+      <p class="popup__big-image-signature"></p>
+    </div>
+  </section>
+
+</div>
+
+<template class="card-template">
+<article class="card">
+  <img class="card__picture" src=" " alt=" ">
+  <div class="card__info">
+    <h2 class="card__signature"></h2>
+    <button class="card__like" type="button">
+    </button>
+  </div>
+  <button class="card__delete" type="button">
+  </button>
+</article>
+</template>  
+
+</body>
+
+</html>

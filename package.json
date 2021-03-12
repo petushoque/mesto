@@ -1,0 +1,40 @@
+{
+  "name": "project_mesto",
+  "version": "1.0.0",
+  "description": "Проектная работа по окнчанию 4-го спринта в программе обучения профессии \"веб-разработчик\" на Яндекс.Практикум. Впервые в работе был использован JavaScript, для реализации простейших взаимодействием со страницей, редактирования имени и статуса в профиле.\r Сайт адаптивен и удобно отображается на различных устройствах, от самых маленьких (размер экрана: 320px) до стремящихся к бесконечности :)",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petushoque/mesto.git"
+  },
+  "author": "Kubasov Alexei",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/petushoque/mesto/issues"
+  },
+  "homepage": "https://github.com/petushoque/mesto#readme",
+  "dependencies": {
+    "core-js": "^3.9.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "autoprefixer": "^10.2.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.1.1",
+    "cssnano": "^4.1.10",
+    "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.1",
+    "mini-css-extract-plugin": "^1.3.9",
+    "postcss-loader": "^5.1.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.24.4",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
