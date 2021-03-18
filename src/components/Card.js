@@ -27,7 +27,9 @@ export class Card {
     }
   
     _handleDeletePost (evt) {
-      evt.target.closest('.card').remove();
+      document.querySelector('.popup_type_delete-post').classList.add('popup_active');
+      
+      //evt.target.closest('.card').remove();
     }
 
     generateCard() {
