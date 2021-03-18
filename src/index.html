@@ -35,6 +35,8 @@
     <p class="footer__copyright">&#169; 2021 Mesto Russia</p>
   </footer>
 
+<!--Редактирование информации профиля-->
+
   <section class="popup popup_type_edit-profile">
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
@@ -48,6 +50,8 @@
       <button class="popup__close-button popup__close-button_type_edit-profile" type="button"></button>
     </div>
   </section>
+
+<!--Добавление нового поста-->
 
   <section class="popup popup_type_add-post">
     <div class="popup__container">
@@ -63,11 +67,39 @@
     </div>
   </section>
 
+<!--Просмотр увеличенной картинки-->
+
   <section class="popup popup_type_image">
     <div class="popup__image-container">
       <img class="popup__big-image" src=" " alt=" ">
       <button class="popup__close-button popup__close-button_type_image" type="button"></button>
       <p class="popup__big-image-signature"></p>
+    </div>
+  </section>
+
+<!--Подтверждение удаления поста-->  
+
+  <section class="popup popup_type_delete-post">
+    <div class="popup__container">
+      <h2 class="popup__title">Новое место</h2>
+      <form name="deletepost" novalidate>
+        <button class="popup__save-button" type="submit" enabled>Да</button>
+      </form>
+      <button class="popup__close-button popup__close-button_type_delete-post" type="button"></button>
+    </div>
+  </section>
+
+<!--Обновить изображение аватара-->
+
+  <section class="popup popup_type_edit-avatar">
+    <div class="popup__container">
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form name="editavatar" novalidate>
+        <input class="popup__input popup__input_textarea_avatar" id="input-avatar" name="avatar" type="url" placeholder="Ссылка на картинку" required>
+        <span class="popup__input-error input-avatar-error"></span>
+        <button class="popup__save-button" type="submit" enabled>Сохранить</button>
+      </form>
+      <button class="popup__close-button popup__close-button_type_add-post" type="button"></button>
     </div>
   </section>
 
