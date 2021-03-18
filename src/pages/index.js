@@ -4,6 +4,8 @@ import { editProfileButton } from '../utils/constants.js';
 import { addPostButton } from '../utils/constants.js';
 import { profileEditForm } from '../utils/constants.js';
 import { addPostForm } from '../utils/constants.js';
+import { editAvatarForm } from '../utils/constants.js';
+import { deletePostForm } from '../utils/constants.js'
 
 import {Card} from '../components/Card.js';
 import {validationList, FormValidator} from '../components/FormValidator.js';
@@ -43,6 +45,11 @@ addPostValid.enableValidation();
 
 const editProfileValid = new FormValidator(validationList, profileEditForm);
 editProfileValid.enableValidation();
+
+//===== Валидация полей ввода формы с редактированием аватара =====
+
+const editAvatarValid = new FormValidator(validationList, editAvatarForm);
+editAvatarValid.enableValidation();
 
 //===========================================================
 
@@ -103,3 +110,18 @@ imagePopup.setEventListeners()
 function handleCardClick(title, image) {
   imagePopup.open(title, image)
 }
+
+
+
+
+
+
+const avatar = document.querySelector('.profile__avatar')
+console.log(avatar)
+avatar.addEventListener('click', function(){
+  document.querySelector('.popup_type_edit-avatar').classList.add('popup_active')
+})
+
+deletePostForm.addEventListener('submit', function(){
+  console.log('Форма принимает значение')
+})

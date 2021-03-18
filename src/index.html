@@ -81,9 +81,9 @@
 
   <section class="popup popup_type_delete-post">
     <div class="popup__container">
-      <h2 class="popup__title">Новое место</h2>
-      <form name="deletepost" novalidate>
-        <button class="popup__save-button" type="submit" enabled>Да</button>
+      <h2 class="popup__title popup__title_small">Вы уверены?</h2>
+      <form name="deletepost">
+        <button class="popup__save-button popup__save-button_active" type="submit">Да</button>
       </form>
       <button class="popup__close-button popup__close-button_type_delete-post" type="button"></button>
     </div>
@@ -97,7 +97,7 @@
       <form name="editavatar" novalidate>
         <input class="popup__input popup__input_textarea_avatar" id="input-avatar" name="avatar" type="url" placeholder="Ссылка на картинку" required>
         <span class="popup__input-error input-avatar-error"></span>
-        <button class="popup__save-button" type="submit" enabled>Сохранить</button>
+        <button class="popup__save-button" type="submit">Сохранить</button>
       </form>
       <button class="popup__close-button popup__close-button_type_add-post" type="button"></button>
     </div>

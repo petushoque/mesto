@@ -24,3 +24,6 @@ export const bigImageSignature = document.querySelector('.popup__big-image-signa
 
 export const profileEditForm = document.forms.profileedit; //переменная для объекта-формы редактирования профиля
 export const addPostForm = document.forms.addpost; //переменная для объекта-формы добавления нового поста
+
+export const editAvatarForm = document.forms.editavatar;
+export const deletePostForm = document.forms.deletepost;
