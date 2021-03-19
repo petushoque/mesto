@@ -20,6 +20,9 @@ export const cardTemplate = document.querySelector('.card-template') //пере�
 export const bigImage = document.querySelector('.popup__big-image'); //переменная для картинки в высоком разрешении
 export const bigImageSignature = document.querySelector('.popup__big-image-signature'); //переменная для подписи к картинке в высоком разрешении
 
+
+export const avatar = document.querySelector('.profile__avatar');
+
 //=== Формы с вводом данных ===
 
 export const profileEditForm = document.forms.profileedit; //переменная для объекта-формы редактирования профиля
