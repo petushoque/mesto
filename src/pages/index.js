@@ -2,6 +2,7 @@ import './index.css';
 
 import { editProfileButton } from '../utils/constants.js';
 import { addPostButton } from '../utils/constants.js';
+import { avatar } from '../utils/constants.js';
 import { profileEditForm } from '../utils/constants.js';
 import { addPostForm } from '../utils/constants.js';
 import { editAvatarForm } from '../utils/constants.js';
@@ -17,24 +18,40 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { UserInfo } from '../components/UserInfo.js'
 import { PopupWithForm } from '../components/PopupWithForm.js';
 
+import { Api } from '../components/Api.js';
+
+const api = new Api ();
+
+api.getCards()
+  .then((result) => {
+    const cardList = new Section({ 
+      data: result,
+      renderer: (item) => {
+        cardList.addItem(createNewCard(item))
+        }
+      },
+      '.elements');
+  cardList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+  api.getUserInfo()
+  .then((result) => {
+    console.log(result)
+    profile.setUserInfo(result.name, result.about, result.avatar)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 //===== Функция создания новой карточки =====
 
 function createNewCard (data) {
     const card = new Card (data, '.card-template', handleCardClick);
     return card.generateCard();
 }
-
-//===== Секциями с карточками =====
-
-const cardList = new Section({ 
-  data: initialCards,
-  renderer: (item) => {
-    cardList.addItem(createNewCard(item))
-    }
-  },
-  '.elements');
-
-cardList.renderItems()
 
 //===== Валидация полей ввода формы с добавлением нового поста =====
 
@@ -55,7 +72,8 @@ editAvatarValid.enableValidation();
 
 const profile = new UserInfo({
   username: '.profile__name',
-  status: '.profile__status'})
+  status: '.profile__status',
+  avatar: '.profile__avatar'})
 
 //===== Попап добавления нового поста на страницу =====
 
@@ -100,6 +118,27 @@ editProfileButton.addEventListener('click', function(){
   //открытие попапа
   editProfilePopup.open()})
 
+//===== Попап редактирования аватара =====
+
+const editAvatarPopup = new PopupWithForm ('.popup_type_edit-avatar',
+  function(formValues){
+    api.patchTest(formValues.avatar)
+    api.getUserInfo()
+    //formValues - аргумент функции
+    //api.patchAvatar(formValues.avatar)
+    this.close()
+  }
+)
+editAvatarPopup.setEventListeners()
+avatar.addEventListener('click', function(){
+  //сброс сообщений с ошибками
+  editAvatarValid.clearErrors();
+  //заполнение форм текущими значениями из профиля
+  //document.forms.profileedit.username.value = profile.getUserInfo().username;
+  //document.forms.profileedit.status.value = profile.getUserInfo().status;
+  //открытие попапа
+  editAvatarPopup.open()})
+
 //===== Попап с открывающейся большой картинкой =====
 
 const imagePopup = new PopupWithImage ('.popup_type_image');
@@ -116,12 +155,12 @@ function handleCardClick(title, image) {
 
 
 
-const avatar = document.querySelector('.profile__avatar')
-console.log(avatar)
-avatar.addEventListener('click', function(){
-  document.querySelector('.popup_type_edit-avatar').classList.add('popup_active')
-})
-
 deletePostForm.addEventListener('submit', function(){
   console.log('Форма принимает значение')
 })
+
+
+
+
+
+//api.getCards();
