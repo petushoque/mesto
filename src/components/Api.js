@@ -1,50 +1,46 @@
-import { avatar } from "../utils/constants";
-
 export class Api {
-    construcror(){
-
+    constructor(token, groupId){
+        this._token = token;
+        this._groupId = groupId
     }
     getCards(){
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-21/cards', {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards`, {
             headers: {
-            authorization: '57e386f4-1a89-4d89-a10b-b49e88b17870'
+            authorization: this._token
             }
         })        
         .then(res => res.json())
     }
     getUserInfo(){
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-21/users/me', {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/users/me`, {
             headers: {
-            authorization: '57e386f4-1a89-4d89-a10b-b49e88b17870'
+            authorization: this._token
             }
         })
         .then(res => res.json())
     }
-    patchAvatar(picture){
-        fetch('https://mesto.nomoreparties.co/v1/cohort-21/users/me/avatar', {
-            headers: {
-            method: 'PATCH',
-            authorization: '57e386f4-1a89-4d89-a10b-b49e88b17870',
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                avatar: `'${picture}'`
-              })
-        })
-    }
-
-    //ИЗМЕНЕНИЕ ИМЕНИ И СТАТУСА РАБОТАЕТ, ССЫЛКА НА АВУ НЕ ПРИКРЕПЛЯЕТСЯ
-    patchTest(int){
-        fetch('https://mesto.nomoreparties.co/v1/cohort-21/users/me', {
+    patchProfileAvatar(picture){
+        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/users/me/avatar`, {
         method: 'PATCH',
         headers: {
-        authorization: '57e386f4-1a89-4d89-a10b-b49e88b17870',
+        authorization: this._token,
         'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-        name: 'Marie Skłodowska Curie',
-        about: 'Hello, World',
-        avatar: int
+            avatar: picture
+        })
+        })
+    }
+    patchProfileInfo(username, status){
+        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/users/me`, {
+        method: 'PATCH',
+        headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: username,
+            about: status
         })
         }); 
     }

@@ -10,7 +10,6 @@ import { deletePostForm } from '../utils/constants.js'
 
 import {Card} from '../components/Card.js';
 import {validationList, FormValidator} from '../components/FormValidator.js';
-import {initialCards} from '../utils/initialCards.js';
 
 import { Section } from '../components/Section.js'
 
@@ -20,7 +19,7 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 
 import { Api } from '../components/Api.js';
 
-const api = new Api ();
+const api = new Api ('57e386f4-1a89-4d89-a10b-b49e88b17870', 'cohort-21');
 
 api.getCards()
   .then((result) => {
@@ -39,8 +38,8 @@ api.getCards()
 
   api.getUserInfo()
   .then((result) => {
-    console.log(result)
-    profile.setUserInfo(result.name, result.about, result.avatar)
+    profile.setUserInfo(result.name, result.about);
+    profile.setUserAvatar(result.avatar)
   })
   .catch((err) => {
     console.log(err);
@@ -105,6 +104,7 @@ const editProfilePopup = new PopupWithForm ('.popup_type_edit-profile',
   function(formValues){
     //записываем новые данные о имени и статусе из форм ввода
     profile.setUserInfo(formValues.username, formValues.status)
+    api.patchProfileInfo(formValues.username, formValues.status)
     this.close()
   }
 )
@@ -122,10 +122,8 @@ editProfileButton.addEventListener('click', function(){
 
 const editAvatarPopup = new PopupWithForm ('.popup_type_edit-avatar',
   function(formValues){
-    api.patchTest(formValues.avatar)
-    api.getUserInfo()
-    //formValues - аргумент функции
-    //api.patchAvatar(formValues.avatar)
+    api.patchProfileAvatar(formValues.avatar)
+    profile.setUserAvatar(formValues.avatar)
     this.close()
   }
 )
@@ -159,8 +157,3 @@ deletePostForm.addEventListener('submit', function(){
   console.log('Форма принимает значение')
 })
 
-
-
-
-
-//api.getCards();
