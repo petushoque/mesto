@@ -11,9 +11,11 @@ export class UserInfo {
         }
         return info
     }
-    setUserInfo(profileName, profileStatus, profileAvatar) {
+    setUserInfo(profileName, profileStatus) {
         this._username.textContent = profileName;
-        this._status.textContent = profileStatus;
-        this._avatar.style.backgroundImage = `url(${profileAvatar})`;
+        this._status.textContent = profileStatus
+    }
+    setUserAvatar(profileAvatar) {
+        this._avatar.style.backgroundImage = `url(${profileAvatar})`
     }
 }
