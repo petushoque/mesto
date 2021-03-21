@@ -44,4 +44,18 @@ export class Api {
         })
         }); 
     }
+    postNewCard(text, url) {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards `, {
+        method: 'POST',
+        headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: text,
+            link: url
+        })
+        })
+        .then(res => res.json())
+    }
 }
