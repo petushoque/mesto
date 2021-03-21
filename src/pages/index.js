@@ -78,13 +78,32 @@ const profile = new UserInfo({
 
 const addPostPopup = new PopupWithForm ('.popup_type_add-post',
   function(formValues){
+    //добавляем кнопке уведомление о загрузке
+    this._popup.querySelector('.popup__save-button').textContent = 'Сохраниение...'
     //создаем по введенным в формы данным новую карточку и добавляем ее на страницу
-    cardList.addItem(createNewCard({
-      name: formValues.signature,
-      link: formValues.picture}))
+    //по средстам АПИ передаем новую карточку на сервер
+    api.postNewCard(formValues.signature, formValues.picture)
+      .then((result) => {
+        console.log(result)
+        //отрисовываем карточку на странице
+        const cardList = new Section({ 
+        data: result,
+        renderer: (item) => {
+          cardList.addItem(createNewCard(item))
+          }
+        },
+        '.elements');
 
+        cardList.addItem(createNewCard(result))
+
+        this.close()
+      })
+    //.then(this.close())
+    .catch((err) => {
+      console.log(err);
+    });
     //закрываем попап
-    this.close();
+    //this.close();
   }
 )
 addPostPopup.setEventListeners();
