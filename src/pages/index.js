@@ -85,7 +85,7 @@ const addPostPopup = new PopupWithForm ('.popup_type_add-post',
     api.postNewCard(formValues.signature, formValues.picture)
       .then((result) => {
         console.log(result)
-        //отрисовываем карточку на странице
+        //создаем карточку
         const cardList = new Section({ 
         data: result,
         renderer: (item) => {
@@ -93,17 +93,14 @@ const addPostPopup = new PopupWithForm ('.popup_type_add-post',
           }
         },
         '.elements');
-
+        //отрисовываем ее на странице
         cardList.addItem(createNewCard(result))
-
+        //закрываем попап
         this.close()
       })
-    //.then(this.close())
     .catch((err) => {
       console.log(err);
     });
-    //закрываем попап
-    //this.close();
   }
 )
 addPostPopup.setEventListeners();
@@ -113,6 +110,8 @@ addPostButton.addEventListener('click', function(){
   //при каждом открытии попапа делаем кнопку неактивной, так как поля пустые//
   const submitButton = addPostForm.querySelector('.popup__save-button');
   addPostValid.disableSubmitButton(submitButton);
+  //сброс кнопки "Сохранить"
+  submitButton.textContent = 'Сохранить'
   //открытие попапа
   addPostPopup.open(); 
 })
