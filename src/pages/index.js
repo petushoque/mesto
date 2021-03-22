@@ -28,12 +28,12 @@ let profile = new UserInfo({
 
 profile.id = '';
 
-console.log(profile)
 
 const api = new Api ('57e386f4-1a89-4d89-a10b-b49e88b17870', 'cohort-21');
 
 api.getCards()
   .then((result) => {
+    console.log(result)
     const cardList = new Section({ 
       data: result,
       renderer: (item) => {
@@ -49,17 +49,10 @@ api.getCards()
 
   api.getUserInfo()
   .then((result) => {
-
-    console.log(result._id)
-
     profile.setUserInfo(result.name, result.about);
     profile.setUserAvatar(result.avatar);
 
-    //window.profile.id = result._id
-    //profile.setUserId(result._id)
     profile.id = result._id
-
-    //result._id - нужно как то вытащить в глобальную область видимости
   })
   .catch((err) => {
     console.log(err);
@@ -67,10 +60,11 @@ api.getCards()
 
 function test(){console.log(profile)}
 setTimeout(test, 1000)
+
 //===== Функция создания новой карточки =====
 
 function createNewCard (data) {
-    const card = new Card (data, '.card-template', handleCardClick);
+    const card = new Card (data, '.card-template', profile.id, handleCardClick);
     return card.generateCard();
 }
 
