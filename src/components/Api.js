@@ -20,7 +20,7 @@ export class Api {
         .then(res => res.json())
     }
     patchProfileAvatar(picture){
-        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/users/me/avatar`, {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/users/me/avatar`, {
         method: 'PATCH',
         headers: {
         authorization: this._token,
@@ -30,6 +30,7 @@ export class Api {
             avatar: picture
         })
         })
+        .then(res => res.json())
     }
     patchProfileInfo(username, status){
         fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/users/me`, {
