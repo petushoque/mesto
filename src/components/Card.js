@@ -2,6 +2,7 @@ export class Card {
     constructor(data, cardSelector, handleCardClick) {
       this._title = data.name;
       this._image = data.link;
+      this._likesCounter = data.likes.length;
       this._cardSelector = cardSelector
 
       this._openImagePopup = handleCardClick;
@@ -37,6 +38,7 @@ export class Card {
       this._element.querySelector('.card__picture').src = this._image;
       this._element.querySelector('.card__picture').alt = this._title;
       this._element.querySelector('.card__signature').textContent = this._title;
+      this._element.querySelector('.card__like-counter').textContent = this._likesCounter
       this._setEventListeners();
       return this._element;
     }

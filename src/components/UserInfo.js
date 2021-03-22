@@ -2,7 +2,7 @@ export class UserInfo {
     constructor(data){
         this._username = document.querySelector(data.username);
         this._status = document.querySelector(data.status);
-        this._avatar = document.querySelector(data.avatar)
+        this._avatar = document.querySelector(data.avatar);
     }
     getUserInfo() {
         const info = {
@@ -17,5 +17,8 @@ export class UserInfo {
     }
     setUserAvatar(profileAvatar) {
         this._avatar.style.backgroundImage = `url(${profileAvatar})`
+    }
+    setUserId(profileId) {
+        this.id = profileId
     }
 }

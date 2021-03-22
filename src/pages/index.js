@@ -19,6 +19,17 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 
 import { Api } from '../components/Api.js';
 
+//===========================================================
+
+let profile = new UserInfo({
+  username: '.profile__name',
+  status: '.profile__status',
+  avatar: '.profile__avatar'})
+
+profile.id = '';
+
+console.log(profile)
+
 const api = new Api ('57e386f4-1a89-4d89-a10b-b49e88b17870', 'cohort-21');
 
 api.getCards()
@@ -38,13 +49,24 @@ api.getCards()
 
   api.getUserInfo()
   .then((result) => {
+
+    console.log(result._id)
+
     profile.setUserInfo(result.name, result.about);
-    profile.setUserAvatar(result.avatar)
+    profile.setUserAvatar(result.avatar);
+
+    //window.profile.id = result._id
+    //profile.setUserId(result._id)
+    profile.id = result._id
+
+    //result._id - нужно как то вытащить в глобальную область видимости
   })
   .catch((err) => {
     console.log(err);
   });
 
+function test(){console.log(profile)}
+setTimeout(test, 1000)
 //===== Функция создания новой карточки =====
 
 function createNewCard (data) {
@@ -66,13 +88,6 @@ editProfileValid.enableValidation();
 
 const editAvatarValid = new FormValidator(validationList, editAvatarForm);
 editAvatarValid.enableValidation();
-
-//===========================================================
-
-const profile = new UserInfo({
-  username: '.profile__name',
-  status: '.profile__status',
-  avatar: '.profile__avatar'})
 
 //===== Попап добавления нового поста на страницу =====
 
@@ -140,18 +155,26 @@ editProfileButton.addEventListener('click', function(){
 
 const editAvatarPopup = new PopupWithForm ('.popup_type_edit-avatar',
   function(formValues){
+    //добавляем кнопке уведомление о загрузке
+    this._popup.querySelector('.popup__save-button').textContent = 'Сохраниение...';
+    //отправляем через АПИ ссылку на новый аватар
     api.patchProfileAvatar(formValues.avatar)
-    profile.setUserAvatar(formValues.avatar)
+    //устанавливаем новую картинку из ответа от сервера
+    .then((result) => {
+    profile.setUserAvatar(result.avatar)
     this.close()
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 )
 editAvatarPopup.setEventListeners()
 avatar.addEventListener('click', function(){
   //сброс сообщений с ошибками
   editAvatarValid.clearErrors();
-  //заполнение форм текущими значениями из профиля
-  //document.forms.profileedit.username.value = profile.getUserInfo().username;
-  //document.forms.profileedit.status.value = profile.getUserInfo().status;
+  //сброс кнопки "Сохранить"
+  editAvatarForm.querySelector('.popup__save-button').textContent = 'Сохранить';
   //открытие попапа
   editAvatarPopup.open()})
 
