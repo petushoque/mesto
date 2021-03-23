@@ -16,6 +16,7 @@ import { Section } from '../components/Section.js'
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { UserInfo } from '../components/UserInfo.js'
 import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithSubmit } from '../components/PopupWithSubmit';
 
 import { Api } from '../components/Api.js';
 
@@ -33,7 +34,7 @@ const api = new Api ('57e386f4-1a89-4d89-a10b-b49e88b17870', 'cohort-21');
 
 api.getCards()
   .then((result) => {
-    console.log(result)
+    //console.log(result)
     const cardList = new Section({ 
       data: result,
       renderer: (item) => {
@@ -58,13 +59,13 @@ api.getCards()
     console.log(err);
   });
 
-function test(){console.log(profile)}
-setTimeout(test, 1000)
+//function test(){console.log(profile)}
+//setTimeout(test, 1000)
 
 //===== Функция создания новой карточки =====
 
 function createNewCard (data) {
-    const card = new Card (data, '.card-template', profile.id, handleCardClick);
+    const card = new Card (data, '.card-template', profile.id, handleCardClick, handleDeleteCardClick, handleLikeClick);
     return card.generateCard();
 }
 
@@ -177,18 +178,40 @@ avatar.addEventListener('click', function(){
 const imagePopup = new PopupWithImage ('.popup_type_image');
 imagePopup.setEventListeners()
 
+const deletePostPopup = new PopupWithSubmit ('.popup_type_delete-post', 
+  function(){
+      //отправка запроса об удалении карточки через API
+      api.deleteCard(deletePostPopup.cardId)
+
+      //удаляем выбранную карточку на фронтенде
+      deletePostPopup.selectedCard.remove()
+
+      //закрываем попап
+      this.close()
+  }
+);
+deletePostPopup.setEventListeners()
+
 //===== Функция, для передачи в класс Card метода из класса PopupWithImage
 
 function handleCardClick(title, image) {
   imagePopup.open(title, image)
 }
 
+function handleDeleteCardClick(id, selectedCard) {
+  deletePostPopup.cardId = id;
+  deletePostPopup.selectedCard = selectedCard;
+  deletePostPopup.open();
+}
 
+function handleLikeClick (cardId, isLiked) {
+  if(isLiked){
+    console.log('liked')
+    api.deleteLikePost(cardId)
+  }
+  else {
+    console.log('dont liked')
+    api.putLikePost(cardId)
+  }
 
-
-
-
-deletePostForm.addEventListener('submit', function(){
-  console.log('Форма принимает значение')
-})
-
+}
