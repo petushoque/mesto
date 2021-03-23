@@ -59,4 +59,28 @@ export class Api {
         })
         .then(res => res.json())
     }
+    deleteCard(id) {        
+        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/${id}/`, {
+        method: 'DELETE',
+        headers: {
+        authorization: this._token
+        }
+        }); 
+    }
+    putLikePost(id) {
+        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/likes/${id}`, {
+        method: 'PUT',
+        headers: {
+        authorization: this._token
+        }
+        });
+    }
+    deleteLikePost(id) {
+        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/likes/${id}`, {
+        method: 'DELETE',
+        headers: {
+        authorization: this._token
+        }
+        });
+    }
 }
