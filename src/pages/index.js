@@ -204,14 +204,17 @@ function handleDeleteCardClick(id, selectedCard) {
   deletePostPopup.open();
 }
 
-function handleLikeClick (cardId, isLiked) {
-  if(isLiked){
-    console.log('liked')
-    api.deleteLikePost(cardId)
-  }
-  else {
-    console.log('dont liked')
-    api.putLikePost(cardId)
-  }
+function handleLikeClick (cardId) {
+  this._isLiked();
+  api.putLikePost(cardId)
+  //console.log(this._listOfLikes)
+  //if(this._isLiked()){
+  //  console.log('liked')
+  //  api.deleteLikePost(cardId)
+  //}
+  //else {
+  //  console.log('dont liked')
+  //  api.putLikePost(cardId)
+  //}
 
 }
