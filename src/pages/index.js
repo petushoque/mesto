@@ -205,16 +205,30 @@ function handleDeleteCardClick(id, selectedCard) {
 }
 
 function handleLikeClick (cardId) {
-  this._isLiked();
+  if(this._isLiked()){
+    api.deleteLikePost(cardId)
+    .then((result) => {
+      this._listOfLikes = result.likes.map((item) => item._id)
+      this._element.querySelector('.card__like-counter').textContent = this._listOfLikes.length;
+      this._element.querySelector('.card__like').classList.remove('card__like_active');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    //this._element.querySelector('.card__like').classList.remove('card__like_active');
+  }
+
+  else {
   api.putLikePost(cardId)
-  //console.log(this._listOfLikes)
-  //if(this._isLiked()){
-  //  console.log('liked')
-  //  api.deleteLikePost(cardId)
-  //}
-  //else {
-  //  console.log('dont liked')
-  //  api.putLikePost(cardId)
-  //}
+  .then((result) => {
+    this._listOfLikes = result.likes.map((item) => item._id)
+    this._element.querySelector('.card__like-counter').textContent = this._listOfLikes.length;
+    this._element.querySelector('.card__like').classList.add('card__like_active');
+    })
+    .catch((err) => {
+      console.log(err);
+    });;
+  //this._element.querySelector('.card__like').classList.add('card__like_active');
+  }
 
 }

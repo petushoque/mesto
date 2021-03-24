@@ -68,19 +68,21 @@ export class Api {
         }); 
     }
     putLikePost(id) {
-        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/likes/${id}`, {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/likes/${id}`, {
         method: 'PUT',
         headers: {
         authorization: this._token
         }
-        });
+        })
+        .then(res => res.json());
     }
     deleteLikePost(id) {
-        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/likes/${id}`, {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/likes/${id}`, {
         method: 'DELETE',
         headers: {
         authorization: this._token
         }
-        });
+        })
+        .then(res => res.json());
     }
 }
