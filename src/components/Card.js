@@ -2,7 +2,7 @@ export class Card {
     constructor(data, cardSelector, ownerId, handleCardClick, handleDeleteCardClick, handleLikeClick) {
       this._title = data.name;
       this._image = data.link;
-      this._likes = data.likes;
+      this._likes = data.likes; //объект со всей информацией о лайках
       this._cardOwner = data.owner._id; //id хозяина карточки
       this._cardId = data._id //id карточки
 
@@ -14,7 +14,7 @@ export class Card {
       this._deleteCardPopup = handleDeleteCardClick;
       this._handleLikeClick = handleLikeClick
 
-      this._listOfLikes = this._likes.map((item) => item._id);
+      this._listOfLikes = this._likes.map((item) => item._id); //массив с id пользователей поставивших лайк
     }
   
     _getTemplate() {
@@ -27,7 +27,7 @@ export class Card {
     }
   
     _setEventListeners() {
-      this._element.querySelector('.card__like').addEventListener('click', () => this._handleLikeClick(this._cardId, this._isLiked()));
+      this._element.querySelector('.card__like').addEventListener('click', () => this._handleLikeClick(this._cardId));
       if (this._isOwner()) {
         this._element.querySelector('.card__delete').addEventListener('click', () => this._deleteCardPopup(this._cardId, this._element));
         }
@@ -47,13 +47,17 @@ export class Card {
       }
     }
 
-    _isLiked () {      
-      if (this._listOfLikes.includes(this._cardOwner)) {
-        return true
+    _isLiked () {    
+      for (let i=0; i < this._listOfLikes.length; i++){
+        console.log(this._listOfLikes[i])
+        console.log(this._ownerId)
+        if (this._listOfLikes[i] === this._ownerId) {
+          console.log('yes')
+          return true
+        }
       }
-      else {
-        return false
-      }
+      console.log('no')
+      return false
     }
 
     setLikes () {
