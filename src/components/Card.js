@@ -49,14 +49,10 @@ export class Card {
 
     _isLiked () {    
       for (let i=0; i < this._listOfLikes.length; i++){
-        console.log(this._listOfLikes[i])
-        console.log(this._ownerId)
         if (this._listOfLikes[i] === this._ownerId) {
-          console.log('yes')
           return true
         }
       }
-      console.log('no')
       return false
     }
 
