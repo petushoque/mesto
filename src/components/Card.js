@@ -1,7 +1,7 @@
 export class Card {
     constructor(data, cardSelector, ownerId, handleCardClick, handleDeleteCardClick, handleLikeClick) {
-      this._title = data.name;
-      this._image = data.link;
+      this._title = data.name; //название карточки
+      this._image = data.link; //ссылка на картинку
       this._likes = data.likes; //объект со всей информацией о лайках
       this._cardOwner = data.owner._id; //id хозяина карточки
       this._cardId = data._id //id карточки
@@ -10,9 +10,9 @@ export class Card {
       
       this._ownerId = ownerId; //id пользователя
 
-      this._openImagePopup = handleCardClick;
-      this._deleteCardPopup = handleDeleteCardClick;
-      this._handleLikeClick = handleLikeClick
+      this._openImagePopup = handleCardClick; //функция откртия попапа с крупной картинкой при клике по картинке у поста
+      this._deleteCardPopup = handleDeleteCardClick; //функция открытия попапа с подтверждением удаления карточки
+      this._handleLikeClick = handleLikeClick //функция с логикой отработки клика по лайку
 
       this._listOfLikes = this._likes.map((item) => item._id); //массив с id пользователей поставивших лайк
     }
@@ -65,8 +65,7 @@ export class Card {
       }
     }
 
-    generateCard() {
-  
+    generateCard() {  
       this._element = this._getTemplate();
       this._element.querySelector('.card__picture').src = this._image;
       this._element.querySelector('.card__picture').alt = this._title;
@@ -78,7 +77,5 @@ export class Card {
       this.setLikes()
 
       return this._element;
-    }
-  
-    
+    }    
   }
