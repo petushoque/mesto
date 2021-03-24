@@ -29,12 +29,12 @@ let profile = new UserInfo({
 
 profile.id = '';
 
-
 const api = new Api ('57e386f4-1a89-4d89-a10b-b49e88b17870', 'cohort-21');
+
+//===== Отрисовка стартового массива карточек на странице =====
 
 api.getCards()
   .then((result) => {
-    //console.log(result)
     const cardList = new Section({ 
       data: result,
       renderer: (item) => {
@@ -48,7 +48,9 @@ api.getCards()
     console.log(err);
   });
 
-  api.getUserInfo()
+//===== Получение информации о пользователе =====
+
+api.getUserInfo()
   .then((result) => {
     profile.setUserInfo(result.name, result.about);
     profile.setUserAvatar(result.avatar);
@@ -59,8 +61,6 @@ api.getCards()
     console.log(err);
   });
 
-//function test(){console.log(profile)}
-//setTimeout(test, 1000)
 
 //===== Функция создания новой карточки =====
 
@@ -192,11 +192,13 @@ const deletePostPopup = new PopupWithSubmit ('.popup_type_delete-post',
 );
 deletePostPopup.setEventListeners()
 
-//===== Функция, для передачи в класс Card метода из класса PopupWithImage
+//===== Функция, для передачи в класс Card метода из класса PopupWithImage =====
 
 function handleCardClick(title, image) {
   imagePopup.open(title, image)
 }
+
+//===== Функция, для передачи в класс Card метода из класса PopupWithSubmit =====
 
 function handleDeleteCardClick(id, selectedCard) {
   deletePostPopup.cardId = id;
@@ -204,31 +206,34 @@ function handleDeleteCardClick(id, selectedCard) {
   deletePostPopup.open();
 }
 
+//===== Функция обработки нажатия на кнопку лайк =====
+
 function handleLikeClick (cardId) {
+  //проверяем лайкал ли пользователь карточку до нажатия по клику
   if(this._isLiked()){
+    //если лайк уже был, отправляем запрос на удаление лайка
     api.deleteLikePost(cardId)
-    .then((result) => {
-      this._listOfLikes = result.likes.map((item) => item._id)
-      this._element.querySelector('.card__like-counter').textContent = this._listOfLikes.length;
-      this._element.querySelector('.card__like').classList.remove('card__like_active');
+      //показываем новое количество лайков и делаем кнопку неактивной
+      .then((result) => {
+        this._listOfLikes = result.likes.map((item) => item._id)
+        this._element.querySelector('.card__like-counter').textContent = this._listOfLikes.length;
+        this._element.querySelector('.card__like').classList.remove('card__like_active');
       })
       .catch((err) => {
         console.log(err);
       });
-    //this._element.querySelector('.card__like').classList.remove('card__like_active');
   }
-
   else {
-  api.putLikePost(cardId)
-  .then((result) => {
-    this._listOfLikes = result.likes.map((item) => item._id)
-    this._element.querySelector('.card__like-counter').textContent = this._listOfLikes.length;
-    this._element.querySelector('.card__like').classList.add('card__like_active');
-    })
-    .catch((err) => {
-      console.log(err);
-    });;
-  //this._element.querySelector('.card__like').classList.add('card__like_active');
+    //если лайка от пользователя не было, отправляем запрос на добавление лайка
+    api.putLikePost(cardId)
+      //показываем новое количество лайков и делаем кнопку активной
+      .then((result) => {
+        this._listOfLikes = result.likes.map((item) => item._id)
+        this._element.querySelector('.card__like-counter').textContent = this._listOfLikes.length;
+        this._element.querySelector('.card__like').classList.add('card__like_active');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-
 }
