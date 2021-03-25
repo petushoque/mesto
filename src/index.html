@@ -19,10 +19,10 @@
     <section class="profile">
       <div class="profile__avatar"></div>  
       <div class="profile__user">      
-        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <h1 class="profile__name"></h1>
         <button class="profile__edit-button" type="button"></button>
       </div>
-      <p class="profile__status">Исследователь океана</p>
+      <p class="profile__status"></p>
       <button class="profile__add-button" type="button"></button>
     </section>
 
@@ -34,6 +34,8 @@
   <footer class="footer">
     <p class="footer__copyright">&#169; 2021 Mesto Russia</p>
   </footer>
+
+<!--Редактирование информации профиля-->
 
   <section class="popup popup_type_edit-profile">
     <div class="popup__container">
@@ -49,6 +51,8 @@
     </div>
   </section>
 
+<!--Добавление нового поста-->
+
   <section class="popup popup_type_add-post">
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
@@ -63,11 +67,39 @@
     </div>
   </section>
 
+<!--Просмотр увеличенной картинки-->
+
   <section class="popup popup_type_image">
     <div class="popup__image-container">
       <img class="popup__big-image" src=" " alt=" ">
       <button class="popup__close-button popup__close-button_type_image" type="button"></button>
       <p class="popup__big-image-signature"></p>
+    </div>
+  </section>
+
+<!--Подтверждение удаления поста-->  
+
+  <section class="popup popup_type_delete-post">
+    <div class="popup__container">
+      <h2 class="popup__title popup__title_small">Вы уверены?</h2>
+      <form name="deletepost">
+        <button class="popup__save-button popup__save-button_active" type="submit">Да</button>
+      </form>
+      <button class="popup__close-button popup__close-button_type_delete-post" type="button"></button>
+    </div>
+  </section>
+
+<!--Обновить изображение аватара-->
+
+  <section class="popup popup_type_edit-avatar">
+    <div class="popup__container">
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form name="editavatar" novalidate>
+        <input class="popup__input popup__input_textarea_avatar" id="input-avatar" name="avatar" type="url" placeholder="Ссылка на картинку" required>
+        <span class="popup__input-error input-avatar-error"></span>
+        <button class="popup__save-button" type="submit">Сохранить</button>
+      </form>
+      <button class="popup__close-button popup__close-button_type_add-post" type="button"></button>
     </div>
   </section>
 
@@ -78,8 +110,10 @@
   <img class="card__picture" src=" " alt=" ">
   <div class="card__info">
     <h2 class="card__signature"></h2>
-    <button class="card__like" type="button">
-    </button>
+    <div class="card__like-section">
+      <button class="card__like" type="button"></button>
+      <p class="card__like-counter">0</p>
+    </div>
   </div>
   <button class="card__delete" type="button">
   </button>
