@@ -22,7 +22,7 @@ import { Api } from '../components/Api.js';
 
 //===========================================================
 
-let profile = new UserInfo({
+const profile = new UserInfo({
   username: '.profile__name',
   status: '.profile__status',
   avatar: '.profile__avatar'})
@@ -89,12 +89,11 @@ editAvatarValid.enableValidation();
 const addPostPopup = new PopupWithForm ('.popup_type_add-post',
   function(formValues){
     //добавляем кнопке уведомление о загрузке
-    this._popup.querySelector('.popup__save-button').textContent = 'Сохраниение...'
+    this.getPopup().querySelector('.popup__save-button').textContent = 'Сохранение...'
     //создаем по введенным в формы данным новую карточку и добавляем ее на страницу
     //по средстам АПИ передаем новую карточку на сервер
     api.postNewCard(formValues.signature, formValues.picture)
       .then((result) => {
-        console.log(result)
         //создаем карточку
         const cardList = new Section({ 
         data: result,
@@ -130,16 +129,24 @@ addPostButton.addEventListener('click', function(){
 
 const editProfilePopup = new PopupWithForm ('.popup_type_edit-profile',
   function(formValues){
+    //добавляем кнопке уведомление о загрузке
+    this.getPopup().querySelector('.popup__save-button').textContent = 'Сохранение...'
     //записываем новые данные о имени и статусе из форм ввода
-    profile.setUserInfo(formValues.username, formValues.status)
     api.patchProfileInfo(formValues.username, formValues.status)
-    this.close()
+      .then((result) => {
+        profile.setUserInfo(result.name, result.about)
+        this.close()})
+      .catch((err) => {
+        console.log(err);
+      });
   }
 )
 editProfilePopup.setEventListeners();
 editProfileButton.addEventListener('click', function(){
   //сброс сообщений с ошибками
   editProfileValid.clearErrors();
+  //сброс кнопки "Сохранить"
+  profileEditForm.querySelector('.popup__save-button').textContent = 'Сохранить'
   //заполнение форм текущими значениями из профиля
   document.forms.profileedit.username.value = profile.getUserInfo().username;
   document.forms.profileedit.status.value = profile.getUserInfo().status;
@@ -181,13 +188,16 @@ imagePopup.setEventListeners()
 const deletePostPopup = new PopupWithSubmit ('.popup_type_delete-post', 
   function(){
       //отправка запроса об удалении карточки через API
-      api.deleteCard(deletePostPopup.cardId)
-
-      //удаляем выбранную карточку на фронтенде
-      deletePostPopup.selectedCard.remove()
-
-      //закрываем попап
-      this.close()
+      api.deleteCard(deletePostPopup.cardId)      
+        .then(() => {
+          //удаляем выбранную карточку на фронтенде
+          deletePostPopup.selectedCard.remove()
+          //закрываем попап
+          this.close()}
+        )
+        .catch((err) => {
+          console.log(err);
+        });      
   }
 );
 deletePostPopup.setEventListeners()
