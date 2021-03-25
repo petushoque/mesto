@@ -17,6 +17,15 @@ export class Card {
       this._listOfLikes = this._likes.map((item) => item._id); //массив с id пользователей поставивших лайк
     }
   
+    updateListOfLikes(obj) {
+      this._listOfLikes = obj.map((item) => item._id)
+      return this._listOfLikes
+    }
+
+    getElement() {
+      return this._element
+    }
+
     _getTemplate() {
       const cardElement = document
       .querySelector(this._cardSelector)
@@ -49,7 +58,7 @@ export class Card {
       }
     }
 
-    _isLiked () {    
+    isLiked () {    
       for (let i=0; i < this._listOfLikes.length; i++){
         if (this._listOfLikes[i] === this._ownerId) {
           return true
@@ -59,7 +68,7 @@ export class Card {
     }
 
     setLikes () {
-      if (this._isLiked()) {
+      if (this.isLiked()) {
         this._element.querySelector('.card__like').classList.add('card__like_active')
       }
       else {

@@ -177,7 +177,7 @@ editProfileButton.addEventListener('click', function(){
 const editAvatarPopup = new PopupWithForm ('.popup_type_edit-avatar',
   function(formValues){
     //добавляем кнопке уведомление о загрузке
-    this._popup.querySelector('.popup__save-button').textContent = 'Сохраниение...';
+    this.getPopup().querySelector('.popup__save-button').textContent = 'Сохраниение...';
     //отправляем через АПИ ссылку на новый аватар
     api.patchProfileAvatar(formValues.avatar)
     //устанавливаем новую картинку из ответа от сервера
@@ -239,14 +239,13 @@ function handleDeleteCardClick(id, selectedCard) {
 
 function handleLikeClick (cardId) {
   //проверяем лайкал ли пользователь карточку до нажатия по клику
-  if(this._isLiked()){
+  if(this.isLiked()){
     //если лайк уже был, отправляем запрос на удаление лайка
     api.deleteLikePost(cardId)
       //показываем новое количество лайков и делаем кнопку неактивной
       .then((result) => {
-        this._listOfLikes = result.likes.map((item) => item._id)
-        this._element.querySelector('.card__like-counter').textContent = this._listOfLikes.length;
-        this._element.querySelector('.card__like').classList.remove('card__like_active');
+        this.getElement().querySelector('.card__like-counter').textContent = this.updateListOfLikes(result.likes).length;
+        this.getElement().querySelector('.card__like').classList.remove('card__like_active')
       })
       .catch((err) => {
         console.log(err);
@@ -257,9 +256,8 @@ function handleLikeClick (cardId) {
     api.putLikePost(cardId)
       //показываем новое количество лайков и делаем кнопку активной
       .then((result) => {
-        this._listOfLikes = result.likes.map((item) => item._id)
-        this._element.querySelector('.card__like-counter').textContent = this._listOfLikes.length;
-        this._element.querySelector('.card__like').classList.add('card__like_active');
+        this.getElement().querySelector('.card__like-counter').textContent = this.updateListOfLikes(result.likes).length;
+        this.getElement().querySelector('.card__like').classList.add('card__like_active');
       })
       .catch((err) => {
         console.log(err);
