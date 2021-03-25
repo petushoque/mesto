@@ -33,34 +33,53 @@ const api = new Api ('57e386f4-1a89-4d89-a10b-b49e88b17870', 'cohort-21');
 
 //===== Отрисовка стартового массива карточек на странице =====
 
-api.getCards()
-  .then((result) => {
-    const cardList = new Section({ 
-      data: result,
-      renderer: (item) => {
-        cardList.addItem(createNewCard(item))
-        }
-      },
-      '.elements');
-  cardList.renderItems();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+const promiseGetCards = new Promise (function (resolve, reject) {
 
+  api.getCards()
+    .then((result) => {
+      const cardList = new Section({ 
+        data: result,
+        renderer: (item) => {
+          cardList.addItem(createNewCard(item))
+          }
+        },
+        '.elements');
+    cardList.renderItems();
+
+    resolve('success')
+    })
+    .catch((err) => {
+      console.log(err);
+
+      reject('error')
+    });
+
+})
+  
 //===== Получение информации о пользователе =====
 
-api.getUserInfo()
-  .then((result) => {
-    profile.setUserInfo(result.name, result.about);
-    profile.setUserAvatar(result.avatar);
+const promiseGetUserInfo = new Promise (function (resolve, reject) {
 
-    profile.id = result._id
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  api.getUserInfo()
+    .then((result) => {
+      profile.setUserInfo(result.name, result.about);
+      profile.setUserAvatar(result.avatar);
+      profile.id = result._id
 
+      resolve('success')
+    })
+    .catch((err) => {
+      console.log(err);
+
+      reject('error')
+    });
+
+  }
+)
+
+const promises = [promiseGetCards, promiseGetUserInfo]
+
+Promise.all(promises)
 
 //===== Функция создания новой карточки =====
 
