@@ -33,7 +33,7 @@ export class Api {
         .then(res => res.json())
     }
     patchProfileInfo(username, status){
-        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/users/me`, {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/users/me`, {
         method: 'PATCH',
         headers: {
         authorization: this._token,
@@ -43,7 +43,8 @@ export class Api {
             name: username,
             about: status
         })
-        }); 
+        })
+        .then(res => res.json()) 
     }
     postNewCard(text, url) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards `, {
@@ -60,12 +61,13 @@ export class Api {
         .then(res => res.json())
     }
     deleteCard(id) {        
-        fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/${id}/`, {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/${id}/`, {
         method: 'DELETE',
         headers: {
         authorization: this._token
         }
-        }); 
+        })
+        .then(res => res.json()) 
     }
     putLikePost(id) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._groupId}/cards/likes/${id}`, {

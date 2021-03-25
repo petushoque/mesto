@@ -38,7 +38,9 @@ export class Card {
       if (this._ownerId === this._cardOwner) {
         return true;
       }
-      else false
+      else {
+        return false;
+      }
     }
 
     setTrashCan () {
